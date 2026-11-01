@@ -4,8 +4,39 @@
 model first, checks how confident the answer is, and only climbs to a bigger model when it has to.
 All inference is local, on CPU, with open-weight models.
 
-Built for Ziroh Labs Build Next 2026 (Kompact AI). Results tables appear here only once they come
-from real runs.
+Built for Ziroh Labs Build Next 2026 (Kompact AI).
+
+## Results
+
+Ladder qwen2.5 0.5B → 3B → 7B on a Ryzen 7 4800H (CPU only), 100 test items per task. Thresholds
+were chosen on the dev split only, against a target of staying within 1% of always-largest accuracy.
+Energy is CPU package energy net of idle, and includes every rejected attempt. Full tables:
+[`backend/reports/results.md`](backend/reports/results.md).
+
+| task | always-7B acc | cascade | pre-routing | hybrid |
+|---|---|---|---|---|
+| classify | 88.0% | 86.0% · 30.1% saved | 86.0% · 36.4% saved | 83.0% · 39.6% saved |
+| extract | 99.0% | 98.0% · −29.9% | 96.0% · 20.9% saved | 98.0% · 15.4% saved |
+| qa | 82.0% | 65.0% · 27.5% saved | 70.0% · 26.4% saved | 70.0% · 23.9% saved |
+| math | 92.0% | 91.0% · −36.2% | 89.0% · 22.9% saved | 87.0% · 14.8% saved |
+| **mixed (400)** | **90.2%** | 85.0% · −29.0% | **85.2% · 23.0% saved** | 84.5% · 16.1% saved |
+
+What this shows:
+
+- **Pre-routing is the mode that pays off.** It picks a tier from the prompt alone and saves 23% energy
+  on mixed traffic for 5 points of accuracy.
+- **Cascading costs more than it saves on math and extract.** 0.5B is escalated on 97–98% of those
+  items, so the wasted first attempts make the cascade 30–36% *more* expensive than running 7B.
+- **QA misses the 1% target on test.** On dev, 7B (78%) was no better than 3B (79%), so the
+  thresholds chosen there did not carry over.
+- Confidence-based escalation beats random escalation at the same rate on every task.
+
+**Caveat: 7B energy is estimated.** From 1 Nov 2026 the laptop's firmware capped the CPU at about
+12 W, which affected most 7B math and QA rows and some 7B extract rows. Those runs kept their
+answers (temperature 0, fixed seed), but the eval replaces their energy and time with a per-tier
+least-squares fit over the same tier's full-power rows (joules ~ prompt + completion tokens),
+labelled `estimated-from-full-power`. The energy repetitions were also skipped (`--reps 1`), so
+there are no per-item energy medians.
 
 ## Status
 
@@ -14,9 +45,9 @@ from real runs.
 | Backend adapters (Ollama, llama.cpp) with token logprobs | done |
 | Energy: LibreHardwareMonitor (Windows), RAPL (Linux), estimator fallback, idle baseline | done |
 | Datasets: classify / extract / qa / math, fixed dev/test splits | done |
-| Item x tier cache (resumable, energy repetitions) | done |
-| Confidence signals, cascade, calibration, baselines | next |
-| Pre-routing, router API, dashboard | later |
+| Item x tier cache (resumable, power-state guards, capped mode) | done |
+| Confidence signals, cascade, calibration, baselines | done |
+| Pre-routing, hybrid, router API (OpenAI-compatible), dashboard | done |
 
 ## Setup (Windows)
 
@@ -91,6 +122,11 @@ Splits: 100 dev (calibration only) + 100 test (reporting only) per task, seed in
   45% of the 7B model on an RTX 3050). Ladder sends `num_gpu: 0` with every request, includes
   backend options in the cache key, and aborts a run if `/api/ps` shows any model in GPU memory.
 - Generations run one at a time at temperature 0; each tier is warmed up first and those runs are
-  discarded. A subset of items is repeated (default 3 runs) for energy medians.
+  discarded. A subset of items can be repeated (default 3 runs) for energy medians; the published
+  run used `--reps 1`.
+- **Power-state guards.** A run stops when the laptop goes on battery, or when package power drops
+  below the idle baseline (this caught a 45 W → 14 W drop on 28 Oct; those rows were quarantined).
+  `cache run --power-capped` lets a run continue under a known cap, and those rows' energy is
+  estimated as described under Results.
 - All assumptions (tiers, tariff ₹/kWh, grid kg CO₂/kWh, TDP, sample rate) live in
   `backend/ladder.yaml`.
