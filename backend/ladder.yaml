@@ -1,0 +1,53 @@
+# Ladder configuration. Every assumption lives here; nothing is hidden in code.
+# Values not set here fall back to the defaults in ladder/config.py.
+
+backends:
+  ollama:
+    kind: ollama
+    url: http://127.0.0.1:11434
+    keep_alive: 60m        # keep all tiers resident between requests
+    num_thread: null       # null = let Ollama choose (physical cores)
+    num_gpu: 0             # CPU-only. Ollama otherwise offloads layers to any GPU it finds.
+  # llamacpp:
+  #   kind: llamacpp
+  #   url: http://127.0.0.1:8080
+
+# Smallest first. Any length. One model family keeps tokenizers/behaviour consistent.
+tiers:
+  - name: t1
+    model: qwen2.5:0.5b
+    backend: ollama
+  - name: t2
+    model: qwen2.5:3b
+    backend: ollama
+  - name: t3
+    model: qwen2.5:7b
+    backend: ollama
+
+energy:
+  # Tried in order; the first one that works is used.
+  sources: [lhm, rapl, estimator]
+  # LibreHardwareMonitor: Options -> Remote Web Server -> Run (default port 8085). Run LHM as admin.
+  lhm_url: http://127.0.0.1:8085/data.json
+  lhm_sensor: Package        # sensor name under the CPU node ("Package" on AMD, "CPU Package" on Intel)
+  rapl_root: /sys/class/powercap
+  sample_hz: 4               # LHM refreshes ~1 Hz by default; sampling faster just repeats values
+  tdp_watts: 45              # used only by the fallback estimator (Ryzen 7 4800H = 45 W)
+  idle_watts: null           # null = use the latest `ladder energy idle` calibration from the DB
+
+tariff:
+  inr_per_kwh: 8.0
+  grid_kg_co2_per_kwh: 0.7   # TODO verify against the latest CEA CO2 baseline database
+
+datasets:
+  dir: datasets
+  dev_size: 100
+  test_size: 100
+  seed: 1234
+
+cache:
+  db_path: ladder.db
+  top_logprobs: 5            # alternatives stored per token (entropy is approximated over these)
+  energy_reps: 3             # total repetitions for energy on the sampled subset (rep 0 = main run)
+  energy_sample_per_task: 30 # items per task/split that get the extra energy repetitions
+  warmup_runs: 2             # discarded generations per tier before measuring

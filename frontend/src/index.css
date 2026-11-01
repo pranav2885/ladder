@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Tokens: reference data-viz palette (validated light + dark steps). */
+:root {
+  color-scheme: light;
+  --page: #f9f9f7;
+  --surface: #fcfcfb;
+  --ink: #0b0b0b;
+  --ink2: #52514e;
+  --muted: #898781;
+  --line: #e1e0d9;
+  --axis: #c3c2b7;
+  --series-1: #2a78d6; /* cascade */
+  --series-2: #eb6834; /* pre-routing */
+  --series-3: #1baf7a; /* hybrid */
+  --tier-1: #86b6ef; /* ordinal ramp: smallest -> largest tier */
+  --tier-2: #2a78d6;
+  --tier-3: #104281;
+  --good: #006300;
+  --warn: #9a6700;
+  --bad: #d03b3b;
+}
+@media (prefers-color-scheme: dark) {
+  :root:where(:not([data-theme="light"])) {
+    color-scheme: dark;
+    --page: #0d0d0d;
+    --surface: #1a1a19;
+    --ink: #f0efec;
+    --ink2: #c3c2b7;
+    --muted: #898781;
+    --line: #2c2c2a;
+    --axis: #383835;
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --tier-1: #86b6ef;
+    --tier-2: #3987e5;
+    --tier-3: #184f95;
+    --good: #0ca30c;
+    --warn: #fab219;
+    --bad: #e66767;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page: #0d0d0d;
+  --surface: #1a1a19;
+  --ink: #f0efec;
+  --ink2: #c3c2b7;
+  --muted: #898781;
+  --line: #2c2c2a;
+  --axis: #383835;
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --tier-1: #86b6ef;
+  --tier-2: #3987e5;
+  --tier-3: #184f95;
+  --good: #0ca30c;
+  --warn: #fab219;
+  --bad: #e66767;
+}
+
+body {
+  background: var(--page);
+  color: var(--ink);
+}
+.num {
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,100 @@
+{"id": "classify-transfer_not_received_by_recipient-007", "task": "classify", "input": {"text": "I just finished sending money, but it's not logging on the recipient side."}, "gold": "transfer_not_received_by_recipient"}
+{"id": "classify-declined_card_payment-015", "task": "classify", "input": {"text": "My card was rejected at the store for some reason, can you look into this for me?"}, "gold": "declined_card_payment"}
+{"id": "classify-cash_withdrawal_charge-002", "task": "classify", "input": {"text": "Was charged an ATM fee despite it being a small withdrawal on the 1st day of the month. I thought I was allowed 200 per month?"}, "gold": "cash_withdrawal_charge"}
+{"id": "classify-change_pin-016", "task": "classify", "input": {"text": "How might  I change my PIN?"}, "gold": "change_pin"}
+{"id": "classify-lost_or_stolen_card-001", "task": "classify", "input": {"text": "How do I report my card stolen?"}, "gold": "lost_or_stolen_card"}
+{"id": "classify-change_pin-009", "task": "classify", "input": {"text": "I desperately need to change my PIN, but I'm overseas on vacation right now. How can I do this?"}, "gold": "change_pin"}
+{"id": "classify-declined_card_payment-007", "task": "classify", "input": {"text": "Why was a transaction on my card declined?"}, "gold": "declined_card_payment"}
+{"id": "classify-transfer_not_received_by_recipient-017", "task": "classify", "input": {"text": "I completed a money transaction but the recipient hasn't received it"}, "gold": "transfer_not_received_by_recipient"}
+{"id": "classify-card_arrival-015", "task": "classify", "input": {"text": "i have not received my card"}, "gold": "card_arrival"}
+{"id": "classify-change_pin-019", "task": "classify", "input": {"text": "I am travelling for two more weeks but really need to change my PIN asap. What do I do?"}, "gold": "change_pin"}
+{"id": "classify-lost_or_stolen_card-007", "task": "classify", "input": {"text": "I'm in Spain and my stuff has been stolen. My card was with it and I need a new one shipped and the old one frozen."}, "gold": "lost_or_stolen_card"}
+{"id": "classify-balance_not_updated_after_bank_transfer-009", "task": "classify", "input": {"text": "When will my transfer be available in my account."}, "gold": "balance_not_updated_after_bank_transfer"}
+{"id": "classify-top_up_failed-008", "task": "classify", "input": {"text": "My top up was denied in the app."}, "gold": "top_up_failed"}
+{"id": "classify-declined_card_payment-012", "task": "classify", "input": {"text": "I have no idea why my card payment did not work."}, "gold": "declined_card_payment"}
+{"id": "classify-lost_or_stolen_card-008", "task": "classify", "input": {"text": "What should I do if I lost my card?"}, "gold": "lost_or_stolen_card"}
+{"id": "classify-top_up_failed-009", "task": "classify", "input": {"text": "How do I know if my top up was unsuccessful?"}, "gold": "top_up_failed"}
+{"id": "classify-transfer_not_received_by_recipient-018", "task": "classify", "input": {"text": "transaction failed?"}, "gold": "transfer_not_received_by_recipient"}
+{"id": "classify-top_up_failed-018", "task": "classify", "input": {"text": "How did my top-up fail?"}, "gold": "top_up_failed"}
+{"id": "classify-card_arrival-011", "task": "classify", "input": {"text": "When will I get my card?"}, "gold": "card_arrival"}
+{"id": "classify-change_pin-008", "task": "classify", "input": {"text": "What steps do I need to take to change my card PIN?"}, "gold": "change_pin"}
+{"id": "classify-top_up_failed-002", "task": "classify", "input": {"text": "I have a top up that didn't go through.  Why?"}, "gold": "top_up_failed"}
+{"id": "classify-change_pin-004", "task": "classify", "input": {"text": "I need to change my pin but I am on the road."}, "gold": "change_pin"}
+{"id": "classify-card_arrival-004", "task": "classify", "input": {"text": "I ordered a card but it has not arrived. Help please!"}, "gold": "card_arrival"}
+{"id": "classify-transfer_not_received_by_recipient-013", "task": "classify", "input": {"text": "How long until my friend receives my transaction?"}, "gold": "transfer_not_received_by_recipient"}
+{"id": "classify-cash_withdrawal_charge-000", "task": "classify", "input": {"text": "I've notice I was charged for withdrawing cash, can you explain why?"}, "gold": "cash_withdrawal_charge"}
+{"id": "classify-lost_or_stolen_card-005", "task": "classify", "input": {"text": "I think I lost my card . I dont know how long it has been missing. Can you see if maybe someone else has been using it?"}, "gold": "lost_or_stolen_card"}
+{"id": "classify-balance_not_updated_after_bank_transfer-000", "task": "classify", "input": {"text": "I made a bank transfer and my account balance did not show it."}, "gold": "balance_not_updated_after_bank_transfer"}
+{"id": "classify-exchange_rate-009", "task": "classify", "input": {"text": "What exchange rate do you use?"}, "gold": "exchange_rate"}
+{"id": "classify-balance_not_updated_after_bank_transfer-001", "task": "classify", "input": {"text": "After the transfer, the balance did not update."}, "gold": "balance_not_updated_after_bank_transfer"}
+{"id": "classify-cash_withdrawal_charge-008", "task": "classify", "input": {"text": "Is there a limit on how much I can withdraw from my account without being charged?"}, "gold": "cash_withdrawal_charge"}
+{"id": "classify-lost_or_stolen_card-004", "task": "classify", "input": {"text": "Are you able to locate my card?"}, "gold": "lost_or_stolen_card"}
+{"id": "classify-transfer_not_received_by_recipient-005", "task": "classify", "input": {"text": "I need to find out why my transfer didn't get there."}, "gold": "transfer_not_received_by_recipient"}
+{"id": "classify-card_arrival-007", "task": "classify", "input": {"text": "I have been waiting longer than expected for my bank card, could you provide information on when it will arrive?"}, "gold": "card_arrival"}
+{"id": "classify-exchange_rate-013", "task": "classify", "input": {"text": "Where do you get your exchange rates from?"}, "gold": "exchange_rate"}
+{"id": "classify-exchange_rate-018", "task": "classify", "input": {"text": "I need to know your exchange rates."}, "gold": "exchange_rate"}
+{"id": "classify-cash_withdrawal_charge-007", "task": "classify", "input": {"text": "Why was my account charged for using an ATM?"}, "gold": "cash_withdrawal_charge"}
+{"id": "classify-pin_blocked-004", "task": "classify", "input": {"text": "\nWhere can I get my PIN unblocked?"}, "gold": "pin_blocked"}
+{"id": "classify-transfer_not_received_by_recipient-002", "task": "classify", "input": {"text": "My money transfer has not arrived."}, "gold": "transfer_not_received_by_recipient"}
+{"id": "classify-lost_or_stolen_card-015", "task": "classify", "input": {"text": "Help! Someone stole my card!"}, "gold": "lost_or_stolen_card"}
+{"id": "classify-change_pin-012", "task": "classify", "input": {"text": "Which cash machines will allow me to change my PIN?"}, "gold": "change_pin"}
+{"id": "classify-card_arrival-012", "task": "classify", "input": {"text": "I'm starting to think my card is lost because it still hasn't arrived, can you help?"}, "gold": "card_arrival"}
+{"id": "classify-cash_withdrawal_charge-014", "task": "classify", "input": {"text": "I have never been charged a fee for cash withdrawal before. When did that change?"}, "gold": "cash_withdrawal_charge"}
+{"id": "classify-card_arrival-019", "task": "classify", "input": {"text": "What is the tracking number for the card you sent?"}, "gold": "card_arrival"}
+{"id": "classify-top_up_failed-019", "task": "classify", "input": {"text": "So, I tried topping up my card for the today. Unfortunately, it failed. A couple of days back I used it and it works fine. Can you double check and tell me what's going on?"}, "gold": "top_up_failed"}
+{"id": "classify-cash_withdrawal_charge-003", "task": "classify", "input": {"text": "Why is there a charge on my account for taking out cash?"}, "gold": "cash_withdrawal_charge"}
+{"id": "classify-exchange_rate-008", "task": "classify", "input": {"text": "What do you base your exchange rates on?"}, "gold": "exchange_rate"}
+{"id": "classify-cash_withdrawal_charge-001", "task": "classify", "input": {"text": "My account got charged for taking out cash, why did this happen?"}, "gold": "cash_withdrawal_charge"}
+{"id": "classify-change_pin-018", "task": "classify", "input": {"text": "Is there a location near me that i can change my PIN?"}, "gold": "change_pin"}
+{"id": "classify-exchange_rate-014", "task": "classify", "input": {"text": "what are exchange rates based on"}, "gold": "exchange_rate"}
+{"id": "classify-lost_or_stolen_card-018", "task": "classify", "input": {"text": "Can you freeze my card it was stolen"}, "gold": "lost_or_stolen_card"}
+{"id": "classify-declined_card_payment-008", "task": "classify", "input": {"text": "Why did it decline my payment?"}, "gold": "declined_card_payment"}
+{"id": "classify-exchange_rate-006", "task": "classify", "input": {"text": "Can you tell me the foreign exchange rate?"}, "gold": "exchange_rate"}
+{"id": "classify-exchange_rate-010", "task": "classify", "input": {"text": "How did you come up with your exchange rates?"}, "gold": "exchange_rate"}
+{"id": "classify-pin_blocked-012", "task": "classify", "input": {"text": "I entered the wrong pin too many times and now I am blocked.  Help me unblock!"}, "gold": "pin_blocked"}
+{"id": "classify-top_up_failed-016", "task": "classify", "input": {"text": "How can I check to see if my top-up worked?"}, "gold": "top_up_failed"}
+{"id": "classify-exchange_rate-019", "task": "classify", "input": {"text": "what is the exchange rate?"}, "gold": "exchange_rate"}
+{"id": "classify-top_up_failed-014", "task": "classify", "input": {"text": "My top-up has failed."}, "gold": "top_up_failed"}
+{"id": "classify-cash_withdrawal_charge-017", "task": "classify", "input": {"text": "Do ATM cash withdrawals carry a charge now? They've been free in the past, but all of a sudden I have to pay to make ATM withdrawals?"}, "gold": "cash_withdrawal_charge"}
+{"id": "classify-lost_or_stolen_card-012", "task": "classify", "input": {"text": "Somehow I am missing my card.  What should I do?"}, "gold": "lost_or_stolen_card"}
+{"id": "classify-cash_withdrawal_charge-009", "task": "classify", "input": {"text": "While I was checking out in the grocery store, I realized I needed cash so I requested some.  However, I noticed there was a fee for this transaction.  Why did I get charged a fee?"}, "gold": "cash_withdrawal_charge"}
+{"id": "classify-pin_blocked-015", "task": "classify", "input": {"text": "My card's frozen, what can I do?"}, "gold": "pin_blocked"}
+{"id": "classify-exchange_rate-015", "task": "classify", "input": {"text": "What are your international exchange rates?"}, "gold": "exchange_rate"}
+{"id": "classify-transfer_not_received_by_recipient-003", "task": "classify", "input": {"text": "I sent some money and the receiver can't access it."}, "gold": "transfer_not_received_by_recipient"}
+{"id": "classify-top_up_failed-003", "task": "classify", "input": {"text": "Why did the app deny my top up?"}, "gold": "top_up_failed"}
+{"id": "classify-top_up_failed-001", "task": "classify", "input": {"text": "Can you tell me why my top up didn't work?"}, "gold": "top_up_failed"}
+{"id": "classify-cash_withdrawal_charge-010", "task": "classify", "input": {"text": "More fees, this time for withdrawing my own cash. Why are you robbing me?"}, "gold": "cash_withdrawal_charge"}
+{"id": "classify-cash_withdrawal_charge-018", "task": "classify", "input": {"text": "Hi, I am calling about a recent transaction that has happened on my account.  I recently went to the ATM, and tried to make a withdrawal on my account.  I just happened to check my transaction slip and noticed a fee for my withdrawal.  How can I resolve this, I didn't know fees were charged for this type of action."}, "gold": "cash_withdrawal_charge"}
+{"id": "classify-cash_withdrawal_charge-015", "task": "classify", "input": {"text": "When I got cash, I'm pretty sure there was a glitch that overcharged me."}, "gold": "cash_withdrawal_charge"}
+{"id": "classify-lost_or_stolen_card-017", "task": "classify", "input": {"text": "I believe my card has been stolen, what can I do about this situation? It's urgent."}, "gold": "lost_or_stolen_card"}
+{"id": "classify-change_pin-015", "task": "classify", "input": {"text": "May I receive a different card pin"}, "gold": "change_pin"}
+{"id": "classify-pin_blocked-007", "task": "classify", "input": {"text": "Can you unblock my pin after too many wrong pin attempts?"}, "gold": "pin_blocked"}
+{"id": "classify-transfer_not_received_by_recipient-014", "task": "classify", "input": {"text": "Where is the transfer I started?"}, "gold": "transfer_not_received_by_recipient"}
+{"id": "classify-top_up_failed-017", "task": "classify", "input": {"text": "I don't think my top up is working correctly"}, "gold": "top_up_failed"}
+{"id": "classify-change_pin-005", "task": "classify", "input": {"text": "I would like to change my PIN but I am not currently in the country."}, "gold": "change_pin"}
+{"id": "classify-change_pin-007", "task": "classify", "input": {"text": "I want to choose a different PIN."}, "gold": "change_pin"}
+{"id": "classify-exchange_rate-002", "task": "classify", "input": {"text": "What foreign exchange rate will you use?"}, "gold": "exchange_rate"}
+{"id": "classify-transfer_not_received_by_recipient-004", "task": "classify", "input": {"text": "I transferred the rent payment for my new place a couple days ago but the landlord says it's not there yet, despite showing up as done on my side. I checked the account number I sent it to and it's definitely correct. Can you please verify if the transaction really went through or not?"}, "gold": "transfer_not_received_by_recipient"}
+{"id": "classify-pin_blocked-010", "task": "classify", "input": {"text": "What can you do to unblock my pin?"}, "gold": "pin_blocked"}
+{"id": "classify-lost_or_stolen_card-006", "task": "classify", "input": {"text": "Someone stole my wallet earlier today, not sure exactly when, probably on Piccadilly circus. Can you check if there were any attempts to use the card and obviously block it?"}, "gold": "lost_or_stolen_card"}
+{"id": "classify-balance_not_updated_after_bank_transfer-011", "task": "classify", "input": {"text": "I didn't get the money I transferred"}, "gold": "balance_not_updated_after_bank_transfer"}
+{"id": "classify-balance_not_updated_after_bank_transfer-013", "task": "classify", "input": {"text": "Why doesn't it show that I did a balance transfer?"}, "gold": "balance_not_updated_after_bank_transfer"}
+{"id": "classify-lost_or_stolen_card-003", "task": "classify", "input": {"text": "card is lost, please help"}, "gold": "lost_or_stolen_card"}
+{"id": "classify-balance_not_updated_after_bank_transfer-007", "task": "classify", "input": {"text": "I made a transfer and it doesnt' show up in my account."}, "gold": "balance_not_updated_after_bank_transfer"}
+{"id": "classify-top_up_failed-005", "task": "classify", "input": {"text": "I really need money from my card today, but my card is getting declined. Please help!!"}, "gold": "top_up_failed"}
+{"id": "classify-pin_blocked-000", "task": "classify", "input": {"text": "Where can I view my PIN?"}, "gold": "pin_blocked"}
+{"id": "classify-cash_withdrawal_charge-006", "task": "classify", "input": {"text": "Why is there a fee for withdrawing?"}, "gold": "cash_withdrawal_charge"}
+{"id": "classify-balance_not_updated_after_bank_transfer-016", "task": "classify", "input": {"text": "Could you please check one of my transfer which i made few hours ago from my UK bank account, as its not showing yet."}, "gold": "balance_not_updated_after_bank_transfer"}
+{"id": "classify-lost_or_stolen_card-013", "task": "classify", "input": {"text": "Help.  I have a stolen card!"}, "gold": "lost_or_stolen_card"}
+{"id": "classify-top_up_failed-015", "task": "classify", "input": {"text": "why isnt top up working"}, "gold": "top_up_failed"}
+{"id": "classify-card_arrival-009", "task": "classify", "input": {"text": "My card has not arrived yet, where is it?"}, "gold": "card_arrival"}
+{"id": "classify-balance_not_updated_after_bank_transfer-010", "task": "classify", "input": {"text": "I transferred some money but I think it has gotten lost somewhere."}, "gold": "balance_not_updated_after_bank_transfer"}
+{"id": "classify-change_pin-003", "task": "classify", "input": {"text": "My new pin needs to be set."}, "gold": "change_pin"}
+{"id": "classify-pin_blocked-019", "task": "classify", "input": {"text": "I used the wrong ping too many times and now the account is blocked.  How do I unblock?"}, "gold": "pin_blocked"}
+{"id": "classify-lost_or_stolen_card-019", "task": "classify", "input": {"text": "My card got stolen!"}, "gold": "lost_or_stolen_card"}
+{"id": "classify-pin_blocked-009", "task": "classify", "input": {"text": "My PIN is blocked, what do I do?"}, "gold": "pin_blocked"}
+{"id": "classify-top_up_failed-004", "task": "classify", "input": {"text": "My top up didn't work."}, "gold": "top_up_failed"}
+{"id": "classify-balance_not_updated_after_bank_transfer-012", "task": "classify", "input": {"text": "I just completed a bank transfer and the balance didn't update"}, "gold": "balance_not_updated_after_bank_transfer"}
+{"id": "classify-change_pin-000", "task": "classify", "input": {"text": "How can I change my Tholepin ?"}, "gold": "change_pin"}
+{"id": "classify-exchange_rate-007", "task": "classify", "input": {"text": "why do your exchange rates change"}, "gold": "exchange_rate"}
+{"id": "classify-card_arrival-006", "task": "classify", "input": {"text": "How do I know when my card will arrive?"}, "gold": "card_arrival"}

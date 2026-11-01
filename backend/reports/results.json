@@ -1,0 +1,2158 @@
+{
+  "created_at": "2026-11-01T03:38:52.661094+00:00",
+  "targets": [
+    0.01,
+    0.0,
+    0.02,
+    0.05,
+    0.1
+  ],
+  "tariff": {
+    "inr_per_kwh": 8.0,
+    "grid_kg_co2_per_kwh": 0.7
+  },
+  "tasks": [
+    {
+      "task": "classify",
+      "tiers": [
+        "t1",
+        "t2"
+      ],
+      "models": [
+        "qwen2.5:0.5b",
+        "qwen2.5:3b"
+      ],
+      "n_test": 100,
+      "energy_kinds": [
+        "measured"
+      ],
+      "baselines": {
+        "always_t1": {
+          "n": 100,
+          "accuracy": 0.6,
+          "joules_total": 568.9701223371766,
+          "joules_mean": 5.689701223371766,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 0.4748733899995568,
+          "seconds_p95": 0.5770783499901881,
+          "final_tier_share": [
+            1.0,
+            0.0
+          ],
+          "escalation_rate": [
+            0.0
+          ],
+          "accepted_wrong_rate": 0.4,
+          "inr": 0.0012643780496381701,
+          "g_co2": 0.11063307934333988
+        },
+        "always_t2": {
+          "n": 100,
+          "accuracy": 0.88,
+          "joules_total": 1491.0410384841496,
+          "joules_mean": 14.910410384841496,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 1.002076106002205,
+          "seconds_p95": 1.3018877299808083,
+          "final_tier_share": [
+            0.0,
+            1.0
+          ],
+          "escalation_rate": [
+            1.0
+          ],
+          "accepted_wrong_rate": 0.0,
+          "inr": 0.0033134245299647766,
+          "g_co2": 0.28992464637191795
+        },
+        "oracle": {
+          "n": 100,
+          "accuracy": 0.9,
+          "joules_total": 858.8291998315594,
+          "joules_mean": 8.588291998315594,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 0.6489942809977219,
+          "seconds_p95": 1.2193495950021316,
+          "final_tier_share": [
+            0.7,
+            0.3
+          ],
+          "escalation_rate": [
+            0.3
+          ],
+          "accepted_wrong_rate": 0.14285714285714285,
+          "inr": 0.0019085093329590209,
+          "g_co2": 0.16699456663391432
+        },
+        "always_largest": {
+          "n": 100,
+          "accuracy": 0.88,
+          "joules_total": 1491.0410384841496,
+          "joules_mean": 14.910410384841496,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 1.002076106002205,
+          "seconds_p95": 1.3018877299808083,
+          "final_tier_share": [
+            0.0,
+            1.0
+          ],
+          "escalation_rate": [
+            1.0
+          ],
+          "accepted_wrong_rate": 0.0,
+          "inr": 0.0033134245299647766,
+          "g_co2": 0.28992464637191795
+        }
+      },
+      "ladder": [
+        {
+          "thresholds": [
+            0.74
+          ],
+          "dev_accuracy": 0.9,
+          "dev_joules": 1569.70081327263,
+          "dev_reference_accuracy": 0.91,
+          "target": 0.01,
+          "test": {
+            "n": 100,
+            "accuracy": 0.86,
+            "joules_total": 1483.4721678958551,
+            "joules_mean": 14.834721678958552,
+            "wasted_joules_total": 338.5938579580831,
+            "seconds_mean": 1.0948484730007477,
+            "seconds_p95": 1.8002758749993517,
+            "final_tier_share": [
+              0.42,
+              0.58
+            ],
+            "escalation_rate": [
+              0.58
+            ],
+            "accepted_wrong_rate": 0.047619047619047616,
+            "inr": 0.0032966048175463447,
+            "g_co2": 0.2884529215353051
+          },
+          "saved_vs_largest_pct": 0.5076232238375705,
+          "oracle_savings_achieved_pct": 1.1972048173640162,
+          "random_same_escalation": {
+            "accuracy": 0.76328,
+            "accuracy_p05": 0.72,
+            "accuracy_p95": 0.81,
+            "joules_total": 1435.2901668303987,
+            "seconds_mean": 1.0571302071918327,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              0.88
+            ],
+            "dev_accuracy": 0.9,
+            "dev_joules": 1390.1645505851866,
+            "target": 0.01,
+            "test": {
+              "n": 100,
+              "accuracy": 0.86,
+              "joules_total": 1349.2164085823538,
+              "joules_mean": 13.492164085823537,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 0.9271664700019755,
+              "seconds_p95": 1.3018877299808083,
+              "final_tier_share": [
+                0.17,
+                0.83
+              ],
+              "escalation_rate": [
+                0.83
+              ],
+              "accepted_wrong_rate": 0.35294117647058826,
+              "inr": 0.0029982586857385638,
+              "g_co2": 0.2623476350021243
+            },
+            "saved_vs_largest_pct": 9.511785808791704,
+            "oracle_savings_achieved_pct": 22.433086701454595
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.6
+            ],
+            "thresholds": [
+              0.4
+            ],
+            "dev_accuracy": 0.9,
+            "dev_joules": 1273.814575844225,
+            "target": 0.01,
+            "test": {
+              "n": 100,
+              "accuracy": 0.83,
+              "joules_total": 1282.8641849815733,
+              "joules_mean": 12.828641849815734,
+              "wasted_joules_total": 104.32179736887396,
+              "seconds_mean": 0.9146398000020417,
+              "seconds_p95": 1.5661517899919999,
+              "final_tier_share": [
+                0.39,
+                0.61
+              ],
+              "escalation_rate": [
+                0.61
+              ],
+              "accepted_wrong_rate": 0.1794871794871795,
+              "inr": 0.0028508092999590517,
+              "g_co2": 0.24944581374641703
+            },
+            "saved_vs_largest_pct": 13.96184599413957,
+            "oracle_savings_achieved_pct": 32.92833837883453
+          }
+        },
+        {
+          "thresholds": [
+            0.78
+          ],
+          "dev_accuracy": 0.91,
+          "dev_joules": 1608.0565608940628,
+          "dev_reference_accuracy": 0.91,
+          "target": 0.0,
+          "test": {
+            "n": 100,
+            "accuracy": 0.86,
+            "joules_total": 1537.5423928080174,
+            "joules_mean": 15.375423928080174,
+            "wasted_joules_total": 356.1346460886099,
+            "seconds_mean": 1.1299209140011226,
+            "seconds_p95": 1.8425259500174431,
+            "final_tier_share": [
+              0.39,
+              0.61
+            ],
+            "escalation_rate": [
+              0.61
+            ],
+            "accepted_wrong_rate": 0.05128205128205128,
+            "inr": 0.0034167608729067053,
+            "g_co2": 0.29896657637933666
+          },
+          "saved_vs_largest_pct": -3.1187172669065473,
+          "oracle_savings_achieved_pct": -7.355343807381795,
+          "random_same_escalation": {
+            "accuracy": 0.7715550000000001,
+            "accuracy_p05": 0.73,
+            "accuracy_p95": 0.81,
+            "joules_total": 1479.8106071119357,
+            "seconds_mean": 1.0870459845178935,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              0.9
+            ],
+            "dev_accuracy": 0.92,
+            "dev_joules": 1453.3548044540184,
+            "target": 0.0,
+            "test": {
+              "n": 100,
+              "accuracy": 0.87,
+              "joules_total": 1390.1832482750042,
+              "joules_mean": 13.901832482750041,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 0.949476843002194,
+              "seconds_p95": 1.3018877299808083,
+              "final_tier_share": [
+                0.12,
+                0.88
+              ],
+              "escalation_rate": [
+                0.88
+              ],
+              "accepted_wrong_rate": 0.25,
+              "inr": 0.003089296107277787,
+              "g_co2": 0.27031340938680637
+            },
+            "saved_vs_largest_pct": 6.764253136297398,
+            "oracle_savings_achieved_pct": 15.953163804097672
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.6
+            ],
+            "thresholds": [
+              0.5
+            ],
+            "dev_accuracy": 0.91,
+            "dev_joules": 1332.0335839377233,
+            "target": 0.0,
+            "test": {
+              "n": 100,
+              "accuracy": 0.85,
+              "joules_total": 1308.77889547529,
+              "joules_mean": 13.0877889547529,
+              "wasted_joules_total": 114.51783978763649,
+              "seconds_mean": 0.9317985430019325,
+              "seconds_p95": 1.5661517899919999,
+              "final_tier_share": [
+                0.37,
+                0.63
+              ],
+              "escalation_rate": [
+                0.63
+              ],
+              "accepted_wrong_rate": 0.13513513513513514,
+              "inr": 0.0029083975455006447,
+              "g_co2": 0.25448478523130635
+            },
+            "saved_vs_largest_pct": 12.223818010680265,
+            "oracle_savings_achieved_pct": 28.829283456207992
+          }
+        },
+        {
+          "thresholds": [
+            0.54
+          ],
+          "dev_accuracy": 0.89,
+          "dev_joules": 1335.5883154700114,
+          "dev_reference_accuracy": 0.91,
+          "target": 0.02,
+          "test": {
+            "n": 100,
+            "accuracy": 0.83,
+            "joules_total": 1271.8993080390467,
+            "joules_mean": 12.718993080390467,
+            "wasted_joules_total": 260.8384980135448,
+            "seconds_mean": 0.9522033310006373,
+            "seconds_p95": 1.8002758749993517,
+            "final_tier_share": [
+              0.56,
+              0.44
+            ],
+            "escalation_rate": [
+              0.44
+            ],
+            "accepted_wrong_rate": 0.16071428571428573,
+            "inr": 0.002826442906753437,
+            "g_co2": 0.2473137543409257
+          },
+          "saved_vs_largest_pct": 14.697229974829593,
+          "oracle_savings_achieved_pct": 34.66270592340561,
+          "random_same_escalation": {
+            "accuracy": 0.723385,
+            "accuracy_p05": 0.68,
+            "accuracy_p95": 0.77,
+            "joules_total": 1224.8989254273013,
+            "seconds_mean": 0.9157081303100273,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              0.88
+            ],
+            "dev_accuracy": 0.9,
+            "dev_joules": 1390.1645505851866,
+            "target": 0.02,
+            "test": {
+              "n": 100,
+              "accuracy": 0.86,
+              "joules_total": 1349.2164085823538,
+              "joules_mean": 13.492164085823537,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 0.9271664700019755,
+              "seconds_p95": 1.3018877299808083,
+              "final_tier_share": [
+                0.17,
+                0.83
+              ],
+              "escalation_rate": [
+                0.83
+              ],
+              "accepted_wrong_rate": 0.35294117647058826,
+              "inr": 0.0029982586857385638,
+              "g_co2": 0.2623476350021243
+            },
+            "saved_vs_largest_pct": 9.511785808791704,
+            "oracle_savings_achieved_pct": 22.433086701454595
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.7
+            ],
+            "thresholds": [
+              0.2
+            ],
+            "dev_accuracy": 0.89,
+            "dev_joules": 1245.1374386531672,
+            "target": 0.02,
+            "test": {
+              "n": 100,
+              "accuracy": 0.85,
+              "joules_total": 1241.7979134493232,
+              "joules_mean": 12.417979134493232,
+              "wasted_joules_total": 37.044167556580604,
+              "seconds_mean": 0.874772448001604,
+              "seconds_p95": 1.4625664950275676,
+              "final_tier_share": [
+                0.36,
+                0.64
+              ],
+              "escalation_rate": [
+                0.64
+              ],
+              "accepted_wrong_rate": 0.19444444444444445,
+              "inr": 0.0027595509187762737,
+              "g_co2": 0.24146070539292394
+            },
+            "saved_vs_largest_pct": 16.71604728520528,
+            "oracle_savings_achieved_pct": 39.42398889050054
+          }
+        },
+        {
+          "thresholds": [
+            0.42
+          ],
+          "dev_accuracy": 0.86,
+          "dev_joules": 1247.2526784606712,
+          "dev_reference_accuracy": 0.91,
+          "target": 0.05,
+          "test": {
+            "n": 100,
+            "accuracy": 0.81,
+            "joules_total": 1102.2546277011577,
+            "joules_mean": 11.022546277011577,
+            "wasted_joules_total": 198.18553298058472,
+            "seconds_mean": 0.8348454730003141,
+            "seconds_p95": 1.756557734972739,
+            "final_tier_share": [
+              0.66,
+              0.34
+            ],
+            "escalation_rate": [
+              0.34
+            ],
+            "accepted_wrong_rate": 0.19696969696969696,
+            "inr": 0.002449454728224795,
+            "g_co2": 0.21432728871966952
+          },
+          "saved_vs_largest_pct": 26.07482964910525,
+          "oracle_savings_achieved_pct": 61.49622436865435,
+          "random_same_escalation": {
+            "accuracy": 0.6955699999999999,
+            "accuracy_p05": 0.65,
+            "accuracy_p95": 0.74,
+            "joules_total": 1075.3189996451486,
+            "seconds_mean": 0.8151489454073194,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              0.64
+            ],
+            "dev_accuracy": 0.86,
+            "dev_joules": 1152.227991194148,
+            "target": 0.05,
+            "test": {
+              "n": 100,
+              "accuracy": 0.78,
+              "joules_total": 1068.2359733291603,
+              "joules_mean": 10.682359733291603,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 0.7673426520015346,
+              "seconds_p95": 1.3018877299808083,
+              "final_tier_share": [
+                0.52,
+                0.48
+              ],
+              "escalation_rate": [
+                0.48
+              ],
+              "accepted_wrong_rate": 0.3076923076923077,
+              "inr": 0.002373857718509245,
+              "g_co2": 0.20771255036955893
+            },
+            "saved_vs_largest_pct": 28.356366742583383,
+            "oracle_savings_achieved_pct": 66.87711923523896
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.6
+            ],
+            "thresholds": [
+              0.2
+            ],
+            "dev_accuracy": 0.87,
+            "dev_joules": 1172.9629569331105,
+            "target": 0.05,
+            "test": {
+              "n": 100,
+              "accuracy": 0.81,
+              "joules_total": 1150.4333358724082,
+              "joules_mean": 11.504333358724082,
+              "wasted_joules_total": 51.80206284306905,
+              "seconds_mean": 0.8265304740014835,
+              "seconds_p95": 1.4625664950275676,
+              "final_tier_share": [
+                0.48,
+                0.52
+              ],
+              "escalation_rate": [
+                0.52
+              ],
+              "accepted_wrong_rate": 0.22916666666666666,
+              "inr": 0.002556518524160907,
+              "g_co2": 0.22369537086407937
+            },
+            "saved_vs_largest_pct": 22.84361689722615,
+            "oracle_savings_achieved_pct": 53.87556540188588
+          }
+        },
+        {
+          "thresholds": [
+            0.26
+          ],
+          "dev_accuracy": 0.81,
+          "dev_joules": 1044.4816085919788,
+          "dev_reference_accuracy": 0.91,
+          "target": 0.1,
+          "test": {
+            "n": 100,
+            "accuracy": 0.73,
+            "joules_total": 813.3725410237015,
+            "joules_mean": 8.133725410237014,
+            "wasted_joules_total": 93.16224763719842,
+            "seconds_mean": 0.6362682149998727,
+            "seconds_p95": 1.562075299990829,
+            "final_tier_share": [
+              0.84,
+              0.16
+            ],
+            "escalation_rate": [
+              0.16
+            ],
+            "accepted_wrong_rate": 0.2976190476190476,
+            "inr": 0.0018074945356082255,
+            "g_co2": 0.15815577186571972
+          },
+          "saved_vs_largest_pct": 45.44935249732578,
+          "oracle_savings_achieved_pct": 107.19009927190514,
+          "random_same_escalation": {
+            "accuracy": 0.6461100000000001,
+            "accuracy_p05": 0.61,
+            "accuracy_p95": 0.68,
+            "joules_total": 809.2591165917271,
+            "seconds_mean": 0.6363850628264119,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              0.58
+            ],
+            "dev_accuracy": 0.82,
+            "dev_joules": 1073.9269686239224,
+            "target": 0.1,
+            "test": {
+              "n": 100,
+              "accuracy": 0.74,
+              "joules_total": 963.0689555738112,
+              "joules_mean": 9.630689555738112,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 0.7078561220009578,
+              "seconds_p95": 1.3018877299808083,
+              "final_tier_share": [
+                0.64,
+                0.36
+              ],
+              "escalation_rate": [
+                0.36
+              ],
+              "accepted_wrong_rate": 0.328125,
+              "inr": 0.0021401532346084695,
+              "g_co2": 0.18726340802824107
+            },
+            "saved_vs_largest_pct": 35.40962785619203,
+            "oracle_savings_achieved_pct": 83.51189437318762
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.5
+            ],
+            "thresholds": [
+              0.2
+            ],
+            "dev_accuracy": 0.82,
+            "dev_joules": 1075.3074316541718,
+            "target": 0.1,
+            "test": {
+              "n": 100,
+              "accuracy": 0.78,
+              "joules_total": 1031.34346836248,
+              "joules_mean": 10.3134346836248,
+              "wasted_joules_total": 61.54347527089642,
+              "seconds_mean": 0.7621868120011641,
+              "seconds_p95": 1.5153618950105736,
+              "final_tier_share": [
+                0.62,
+                0.38
+              ],
+              "escalation_rate": [
+                0.38
+              ],
+              "accepted_wrong_rate": 0.25806451612903225,
+              "inr": 0.0022918743741388446,
+              "g_co2": 0.20053900773714892
+            },
+            "saved_vs_largest_pct": 30.830645049784543,
+            "oracle_savings_achieved_pct": 72.71258493061535
+          }
+        }
+      ]
+    },
+    {
+      "task": "extract",
+      "tiers": [
+        "t1",
+        "t2"
+      ],
+      "models": [
+        "qwen2.5:0.5b",
+        "qwen2.5:3b"
+      ],
+      "n_test": 100,
+      "energy_kinds": [
+        "measured"
+      ],
+      "baselines": {
+        "always_t1": {
+          "n": 100,
+          "accuracy": 0.44,
+          "joules_total": 4196.5177809793495,
+          "joules_mean": 41.965177809793495,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 3.332631765998085,
+          "seconds_p95": 4.5642058700148445,
+          "final_tier_share": [
+            1.0,
+            0.0
+          ],
+          "escalation_rate": [
+            0.0
+          ],
+          "accepted_wrong_rate": 0.56,
+          "inr": 0.009325595068842998,
+          "g_co2": 0.8159895685237623
+        },
+        "always_t2": {
+          "n": 100,
+          "accuracy": 0.92,
+          "joules_total": 15915.132427636545,
+          "joules_mean": 159.15132427636544,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 10.34487755699869,
+          "seconds_p95": 11.48444990999851,
+          "final_tier_share": [
+            0.0,
+            1.0
+          ],
+          "escalation_rate": [
+            1.0
+          ],
+          "accepted_wrong_rate": 0.0,
+          "inr": 0.035366960950303436,
+          "g_co2": 3.0946090831515507
+        },
+        "oracle": {
+          "n": 100,
+          "accuracy": 0.95,
+          "joules_total": 10123.300985051936,
+          "joules_mean": 101.23300985051935,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 6.925602226999181,
+          "seconds_p95": 11.148944864999793,
+          "final_tier_share": [
+            0.49,
+            0.51
+          ],
+          "escalation_rate": [
+            0.51
+          ],
+          "accepted_wrong_rate": 0.10204081632653061,
+          "inr": 0.022496224411226524,
+          "g_co2": 1.9684196359823205
+        },
+        "always_largest": {
+          "n": 100,
+          "accuracy": 0.92,
+          "joules_total": 15915.132427636545,
+          "joules_mean": 159.15132427636544,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 10.34487755699869,
+          "seconds_p95": 11.48444990999851,
+          "final_tier_share": [
+            0.0,
+            1.0
+          ],
+          "escalation_rate": [
+            1.0
+          ],
+          "accepted_wrong_rate": 0.0,
+          "inr": 0.035366960950303436,
+          "g_co2": 3.0946090831515507
+        }
+      },
+      "ladder": [
+        {
+          "thresholds": [
+            0.76
+          ],
+          "dev_accuracy": 0.93,
+          "dev_joules": 18741.465216344604,
+          "dev_reference_accuracy": 0.94,
+          "target": 0.01,
+          "test": {
+            "n": 100,
+            "accuracy": 0.91,
+            "joules_total": 19774.296096751157,
+            "joules_mean": 197.74296096751158,
+            "wasted_joules_total": 4112.7208432839,
+            "seconds_mean": 13.436374809996632,
+            "seconds_p95": 16.29573612002132,
+            "final_tier_share": [
+              0.02,
+              0.98
+            ],
+            "escalation_rate": [
+              0.98
+            ],
+            "accepted_wrong_rate": 0.5,
+            "inr": 0.043942880215002575,
+            "g_co2": 3.8450020188127247
+          },
+          "saved_vs_largest_pct": -24.248391816163558,
+          "oracle_savings_achieved_pct": -66.63114607825081,
+          "random_same_escalation": {
+            "accuracy": 0.9104450000000002,
+            "accuracy_p05": 0.89,
+            "accuracy_p95": 0.92,
+            "joules_total": 19791.089601111984,
+            "seconds_mean": 13.4692592054188,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              0.82
+            ],
+            "dev_accuracy": 0.93,
+            "dev_joules": 14913.527808090965,
+            "target": 0.01,
+            "test": {
+              "n": 100,
+              "accuracy": 0.9,
+              "joules_total": 15544.544916119394,
+              "joules_mean": 155.44544916119395,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 10.120177682999056,
+              "seconds_p95": 11.48444990999851,
+              "final_tier_share": [
+                0.03,
+                0.97
+              ],
+              "escalation_rate": [
+                0.97
+              ],
+              "accepted_wrong_rate": 0.6666666666666666,
+              "inr": 0.034543433146931986,
+              "g_co2": 3.022550400356548
+            },
+            "saved_vs_largest_pct": 2.328522952618527,
+            "oracle_savings_achieved_pct": 6.398451253128599
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.5
+            ],
+            "thresholds": [
+              0.4
+            ],
+            "dev_accuracy": 0.93,
+            "dev_joules": 13938.582745905942,
+            "target": 0.01,
+            "test": {
+              "n": 100,
+              "accuracy": 0.91,
+              "joules_total": 13702.343938743152,
+              "joules_mean": 137.02343938743152,
+              "wasted_joules_total": 566.318127919433,
+              "seconds_mean": 9.191690067998133,
+              "seconds_p95": 14.145629185000143,
+              "final_tier_share": [
+                0.23,
+                0.77
+              ],
+              "escalation_rate": [
+                0.77
+              ],
+              "accepted_wrong_rate": 0.08695652173913043,
+              "inr": 0.030449653197207004,
+              "g_co2": 2.664344654755613
+            },
+            "saved_vs_largest_pct": 13.903676258771792,
+            "oracle_savings_achieved_pct": 38.20533299059433
+          }
+        },
+        {
+          "thresholds": [
+            0.8
+          ],
+          "dev_accuracy": 0.94,
+          "dev_joules": 19217.175522084814,
+          "dev_reference_accuracy": 0.94,
+          "target": 0.0,
+          "test": {
+            "n": 100,
+            "accuracy": 0.92,
+            "joules_total": 19956.635704291723,
+            "joules_mean": 199.56635704291722,
+            "wasted_joules_total": 4154.709228859847,
+            "seconds_mean": 13.577804070996644,
+            "seconds_p95": 16.475565675017425,
+            "final_tier_share": [
+              0.01,
+              0.99
+            ],
+            "escalation_rate": [
+              0.99
+            ],
+            "accepted_wrong_rate": 0.0,
+            "inr": 0.044348079342870494,
+            "g_co2": 3.880456942501168
+          },
+          "saved_vs_largest_pct": -25.39409140973988,
+          "oracle_savings_achieved_pct": -69.77936628023922,
+          "random_same_escalation": {
+            "accuracy": 0.9150900000000001,
+            "accuracy_p05": 0.9,
+            "accuracy_p95": 0.92,
+            "joules_total": 19950.54691308427,
+            "seconds_mean": 13.572950093889784,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              0.9
+            ],
+            "dev_accuracy": 0.94,
+            "dev_joules": 15452.035863740553,
+            "target": 0.0,
+            "test": {
+              "n": 100,
+              "accuracy": 0.92,
+              "joules_total": 15915.132427636545,
+              "joules_mean": 159.15132427636544,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 10.34487755699869,
+              "seconds_p95": 11.48444990999851,
+              "final_tier_share": [
+                0.0,
+                1.0
+              ],
+              "escalation_rate": [
+                1.0
+              ],
+              "accepted_wrong_rate": 0.0,
+              "inr": 0.035366960950303436,
+              "g_co2": 3.0946090831515507
+            },
+            "saved_vs_largest_pct": 0.0,
+            "oracle_savings_achieved_pct": 0.0
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.7
+            ],
+            "thresholds": [
+              0.1
+            ],
+            "dev_accuracy": 0.94,
+            "dev_joules": 14500.358455636067,
+            "target": 0.0,
+            "test": {
+              "n": 100,
+              "accuracy": 0.9,
+              "joules_total": 14772.60009187888,
+              "joules_mean": 147.7260009187888,
+              "wasted_joules_total": 94.0969670902293,
+              "seconds_mean": 9.625748774998355,
+              "seconds_p95": 13.328444820018193,
+              "final_tier_share": [
+                0.11,
+                0.89
+              ],
+              "escalation_rate": [
+                0.89
+              ],
+              "accepted_wrong_rate": 0.2727272727272727,
+              "inr": 0.03282800020417529,
+              "g_co2": 2.8724500178653374
+            },
+            "saved_vs_largest_pct": 7.1789056167303,
+            "oracle_savings_achieved_pct": 19.72661578783462
+          }
+        },
+        {
+          "thresholds": [
+            0.76
+          ],
+          "dev_accuracy": 0.93,
+          "dev_joules": 18741.465216344604,
+          "dev_reference_accuracy": 0.94,
+          "target": 0.02,
+          "test": {
+            "n": 100,
+            "accuracy": 0.91,
+            "joules_total": 19774.296096751157,
+            "joules_mean": 197.74296096751158,
+            "wasted_joules_total": 4112.7208432839,
+            "seconds_mean": 13.436374809996632,
+            "seconds_p95": 16.29573612002132,
+            "final_tier_share": [
+              0.02,
+              0.98
+            ],
+            "escalation_rate": [
+              0.98
+            ],
+            "accepted_wrong_rate": 0.5,
+            "inr": 0.043942880215002575,
+            "g_co2": 3.8450020188127247
+          },
+          "saved_vs_largest_pct": -24.248391816163558,
+          "oracle_savings_achieved_pct": -66.63114607825081,
+          "random_same_escalation": {
+            "accuracy": 0.9104450000000002,
+            "accuracy_p05": 0.89,
+            "accuracy_p95": 0.92,
+            "joules_total": 19791.089601111984,
+            "seconds_mean": 13.4692592054188,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              0.78
+            ],
+            "dev_accuracy": 0.92,
+            "dev_joules": 14324.53275113167,
+            "target": 0.02,
+            "test": {
+              "n": 100,
+              "accuracy": 0.89,
+              "joules_total": 15205.307149899596,
+              "joules_mean": 152.05307149899596,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 9.896603587998543,
+              "seconds_p95": 11.48444990999851,
+              "final_tier_share": [
+                0.06,
+                0.94
+              ],
+              "escalation_rate": [
+                0.94
+              ],
+              "accepted_wrong_rate": 0.5,
+              "inr": 0.033789571444221324,
+              "g_co2": 2.956587501369366
+            },
+            "saved_vs_largest_pct": 4.460065167314228,
+            "oracle_savings_achieved_pct": 12.255627339530946
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.4
+            ],
+            "thresholds": [
+              0.4
+            ],
+            "dev_accuracy": 0.92,
+            "dev_joules": 13147.263831085995,
+            "target": 0.02,
+            "test": {
+              "n": 100,
+              "accuracy": 0.9,
+              "joules_total": 13408.836240314344,
+              "joules_mean": 134.08836240314344,
+              "wasted_joules_total": 819.8152027762912,
+              "seconds_mean": 9.067781733998272,
+              "seconds_p95": 14.431688219988427,
+              "final_tier_share": [
+                0.28,
+                0.72
+              ],
+              "escalation_rate": [
+                0.72
+              ],
+              "accepted_wrong_rate": 0.10714285714285714,
+              "inr": 0.02979741386736521,
+              "g_co2": 2.6072737133944557
+            },
+            "saved_vs_largest_pct": 15.74788145004707,
+            "oracle_savings_achieved_pct": 43.272947636123966
+          }
+        },
+        {
+          "thresholds": [
+            0.7
+          ],
+          "dev_accuracy": 0.91,
+          "dev_joules": 17841.618377448136,
+          "dev_reference_accuracy": 0.94,
+          "target": 0.05,
+          "test": {
+            "n": 100,
+            "accuracy": 0.92,
+            "joules_total": 19322.507028328473,
+            "joules_mean": 193.22507028328474,
+            "wasted_joules_total": 3972.847520748925,
+            "seconds_mean": 13.140905372996931,
+            "seconds_p95": 16.29573612002132,
+            "final_tier_share": [
+              0.05,
+              0.95
+            ],
+            "escalation_rate": [
+              0.95
+            ],
+            "accepted_wrong_rate": 0.2,
+            "inr": 0.042938904507396604,
+            "g_co2": 3.7571541443972025
+          },
+          "saved_vs_largest_pct": -21.409652833142875,
+          "oracle_savings_achieved_pct": -58.830693442476715,
+          "random_same_escalation": {
+            "accuracy": 0.89619,
+            "accuracy_p05": 0.87,
+            "accuracy_p95": 0.92,
+            "joules_total": 19323.352772321494,
+            "seconds_mean": 13.165505536845838,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              0.7
+            ],
+            "dev_accuracy": 0.89,
+            "dev_joules": 13756.598252701488,
+            "target": 0.05,
+            "test": {
+              "n": 100,
+              "accuracy": 0.88,
+              "joules_total": 14419.790045656717,
+              "joules_mean": 144.19790045656717,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 9.400347285998578,
+              "seconds_p95": 11.48444990999851,
+              "final_tier_share": [
+                0.13,
+                0.87
+              ],
+              "escalation_rate": [
+                0.87
+              ],
+              "accepted_wrong_rate": 0.38461538461538464,
+              "inr": 0.03204397787923715,
+              "g_co2": 2.80384806443325
+            },
+            "saved_vs_largest_pct": 9.395726920771164,
+            "oracle_savings_achieved_pct": 25.81812673250951
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.4
+            ],
+            "thresholds": [
+              0.2
+            ],
+            "dev_accuracy": 0.89,
+            "dev_joules": 12043.783124881438,
+            "target": 0.05,
+            "test": {
+              "n": 100,
+              "accuracy": 0.87,
+              "joules_total": 12291.368391802167,
+              "joules_mean": 122.91368391802168,
+              "wasted_joules_total": 510.61332567673156,
+              "seconds_mean": 8.336725201998197,
+              "seconds_p95": 14.431688219988427,
+              "final_tier_share": [
+                0.35,
+                0.65
+              ],
+              "escalation_rate": [
+                0.65
+              ],
+              "accepted_wrong_rate": 0.17142857142857143,
+              "inr": 0.027314151981782595,
+              "g_co2": 2.389988298405977
+            },
+            "saved_vs_largest_pct": 22.76929866786236,
+            "oracle_savings_achieved_pct": 62.56680761098376
+          }
+        },
+        {
+          "thresholds": [
+            0.54
+          ],
+          "dev_accuracy": 0.84,
+          "dev_joules": 14207.50439464254,
+          "dev_reference_accuracy": 0.94,
+          "target": 0.1,
+          "test": {
+            "n": 100,
+            "accuracy": 0.87,
+            "joules_total": 14738.50652659864,
+            "joules_mean": 147.38506526598638,
+            "wasted_joules_total": 2729.8714365149,
+            "seconds_mean": 10.178647121997493,
+            "seconds_p95": 16.29573612002132,
+            "final_tier_share": [
+              0.34,
+              0.66
+            ],
+            "escalation_rate": [
+              0.66
+            ],
+            "accepted_wrong_rate": 0.23529411764705882,
+            "inr": 0.03275223672577476,
+            "g_co2": 2.865820713505291
+          },
+          "saved_vs_largest_pct": 7.393126676060205,
+          "oracle_savings_achieved_pct": 20.315264915804168,
+          "random_same_escalation": {
+            "accuracy": 0.75718,
+            "accuracy_p05": 0.7,
+            "accuracy_p95": 0.81,
+            "joules_total": 14710.435424217467,
+            "seconds_mean": 10.166866744215707,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              0.56
+            ],
+            "dev_accuracy": 0.84,
+            "dev_joules": 12189.149141815216,
+            "target": 0.1,
+            "test": {
+              "n": 100,
+              "accuracy": 0.84,
+              "joules_total": 12667.46877187981,
+              "joules_mean": 126.67468771879811,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 8.360499116998689,
+              "seconds_p95": 11.151644100010161,
+              "final_tier_share": [
+                0.27,
+                0.73
+              ],
+              "escalation_rate": [
+                0.73
+              ],
+              "accepted_wrong_rate": 0.3333333333333333,
+              "inr": 0.028149930604177358,
+              "g_co2": 2.463118927865519
+            },
+            "saved_vs_largest_pct": 20.40613655288965,
+            "oracle_savings_achieved_pct": 56.07317284612589
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.3
+            ],
+            "thresholds": [
+              0.1
+            ],
+            "dev_accuracy": 0.85,
+            "dev_joules": 11377.46842285243,
+            "target": 0.1,
+            "test": {
+              "n": 100,
+              "accuracy": 0.8,
+              "joules_total": 10677.476176001142,
+              "joules_mean": 106.77476176001143,
+              "wasted_joules_total": 424.5875477528105,
+              "seconds_mean": 7.385658014997607,
+              "seconds_p95": 13.940238195007257,
+              "final_tier_share": [
+                0.47,
+                0.53
+              ],
+              "escalation_rate": [
+                0.53
+              ],
+              "accepted_wrong_rate": 0.2765957446808511,
+              "inr": 0.023727724835558094,
+              "g_co2": 2.076175923111333
+            },
+            "saved_vs_largest_pct": 32.909913099687685,
+            "oracle_savings_achieved_pct": 90.43177971522759
+          }
+        }
+      ]
+    },
+    {
+      "task": "qa",
+      "tiers": [
+        "t1",
+        "t2"
+      ],
+      "models": [
+        "qwen2.5:0.5b",
+        "qwen2.5:3b"
+      ],
+      "n_test": 100,
+      "energy_kinds": [
+        "measured"
+      ],
+      "baselines": {
+        "always_t1": {
+          "n": 100,
+          "accuracy": 0.43,
+          "joules_total": 1677.5783192040617,
+          "joules_mean": 16.775783192040617,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 1.490140328000125,
+          "seconds_p95": 2.5610323099987,
+          "final_tier_share": [
+            1.0,
+            0.0
+          ],
+          "escalation_rate": [
+            0.0
+          ],
+          "accepted_wrong_rate": 0.57,
+          "inr": 0.0037279518204534705,
+          "g_co2": 0.32619578428967866
+        },
+        "always_t2": {
+          "n": 100,
+          "accuracy": 0.7,
+          "joules_total": 5434.4323971490685,
+          "joules_mean": 54.34432397149069,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 3.9273413659993093,
+          "seconds_p95": 8.165845659993646,
+          "final_tier_share": [
+            0.0,
+            1.0
+          ],
+          "escalation_rate": [
+            1.0
+          ],
+          "accepted_wrong_rate": 0.0,
+          "inr": 0.012076516438109041,
+          "g_co2": 1.056695188334541
+        },
+        "oracle": {
+          "n": 100,
+          "accuracy": 0.76,
+          "joules_total": 2794.566695979955,
+          "joules_mean": 27.94566695979955,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 2.194344618000905,
+          "seconds_p95": 4.928455955011304,
+          "final_tier_share": [
+            0.67,
+            0.33
+          ],
+          "escalation_rate": [
+            0.33
+          ],
+          "accepted_wrong_rate": 0.3582089552238806,
+          "inr": 0.006210148213288789,
+          "g_co2": 0.5433879686627691
+        },
+        "always_largest": {
+          "n": 100,
+          "accuracy": 0.7,
+          "joules_total": 5434.4323971490685,
+          "joules_mean": 54.34432397149069,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 3.9273413659993093,
+          "seconds_p95": 8.165845659993646,
+          "final_tier_share": [
+            0.0,
+            1.0
+          ],
+          "escalation_rate": [
+            1.0
+          ],
+          "accepted_wrong_rate": 0.0,
+          "inr": 0.012076516438109041,
+          "g_co2": 1.056695188334541
+        }
+      },
+      "ladder": [
+        {
+          "thresholds": [
+            0.86
+          ],
+          "dev_accuracy": 0.78,
+          "dev_joules": 6023.968033138332,
+          "dev_reference_accuracy": 0.79,
+          "target": 0.01,
+          "test": {
+            "n": 100,
+            "accuracy": 0.69,
+            "joules_total": 6326.361119834432,
+            "joules_mean": 63.26361119834432,
+            "wasted_joules_total": 1428.6847843150563,
+            "seconds_mean": 4.783897690000012,
+            "seconds_p95": 10.415004419987962,
+            "final_tier_share": [
+              0.18,
+              0.82
+            ],
+            "escalation_rate": [
+              0.82
+            ],
+            "accepted_wrong_rate": 0.2222222222222222,
+            "inr": 0.01405858026629874,
+            "g_co2": 1.2301257733011395
+          },
+          "saved_vs_largest_pct": -16.41254610423113,
+          "oracle_savings_achieved_pct": -33.78689765507225,
+          "random_same_escalation": {
+            "accuracy": 0.6521600000000001,
+            "accuracy_p05": 0.61,
+            "accuracy_p95": 0.69,
+            "joules_total": 6147.223666666571,
+            "seconds_mean": 4.719308106562565,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              1.0
+            ],
+            "dev_accuracy": 0.79,
+            "dev_joules": 5124.866657087015,
+            "target": 0.01,
+            "test": {
+              "n": 100,
+              "accuracy": 0.7,
+              "joules_total": 5434.4323971490685,
+              "joules_mean": 54.34432397149069,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 3.9273413659993093,
+              "seconds_p95": 8.165845659993646,
+              "final_tier_share": [
+                0.0,
+                1.0
+              ],
+              "escalation_rate": [
+                1.0
+              ],
+              "accepted_wrong_rate": 0.0,
+              "inr": 0.012076516438109041,
+              "g_co2": 1.056695188334541
+            },
+            "saved_vs_largest_pct": 0.0,
+            "oracle_savings_achieved_pct": 0.0
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.9
+            ],
+            "thresholds": [
+              0.6
+            ],
+            "dev_accuracy": 0.78,
+            "dev_joules": 5101.4553079574625,
+            "target": 0.01,
+            "test": {
+              "n": 100,
+              "accuracy": 0.7,
+              "joules_total": 5434.4323971490685,
+              "joules_mean": 54.34432397149069,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 3.9273413659993093,
+              "seconds_p95": 8.165845659993646,
+              "final_tier_share": [
+                0.0,
+                1.0
+              ],
+              "escalation_rate": [
+                1.0
+              ],
+              "accepted_wrong_rate": 0.0,
+              "inr": 0.012076516438109041,
+              "g_co2": 1.056695188334541
+            },
+            "saved_vs_largest_pct": 0.0,
+            "oracle_savings_achieved_pct": 0.0
+          }
+        },
+        {
+          "thresholds": [
+            0.92
+          ],
+          "dev_accuracy": 0.79,
+          "dev_joules": 6574.002217564672,
+          "dev_reference_accuracy": 0.79,
+          "target": 0.0,
+          "test": {
+            "n": 100,
+            "accuracy": 0.7,
+            "joules_total": 7070.862791795225,
+            "joules_mean": 70.70862791795226,
+            "wasted_joules_total": 1665.2409386068505,
+            "seconds_mean": 5.389384696999623,
+            "seconds_p95": 10.415004419987962,
+            "final_tier_share": [
+              0.01,
+              0.99
+            ],
+            "escalation_rate": [
+              0.99
+            ],
+            "accepted_wrong_rate": 0.0,
+            "inr": 0.01571302842621161,
+            "g_co2": 1.3748899872935159
+          },
+          "saved_vs_largest_pct": -30.112259663118394,
+          "oracle_savings_achieved_pct": -61.9891532331146,
+          "random_same_escalation": {
+            "accuracy": 0.6975199999999999,
+            "accuracy_p05": 0.69,
+            "accuracy_p95": 0.7,
+            "joules_total": 7056.265772063745,
+            "seconds_mean": 5.377440411681441,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              1.0
+            ],
+            "dev_accuracy": 0.79,
+            "dev_joules": 5124.866657087015,
+            "target": 0.0,
+            "test": {
+              "n": 100,
+              "accuracy": 0.7,
+              "joules_total": 5434.4323971490685,
+              "joules_mean": 54.34432397149069,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 3.9273413659993093,
+              "seconds_p95": 8.165845659993646,
+              "final_tier_share": [
+                0.0,
+                1.0
+              ],
+              "escalation_rate": [
+                1.0
+              ],
+              "accepted_wrong_rate": 0.0,
+              "inr": 0.012076516438109041,
+              "g_co2": 1.056695188334541
+            },
+            "saved_vs_largest_pct": 0.0,
+            "oracle_savings_achieved_pct": 0.0
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              1.0
+            ],
+            "thresholds": [
+              0.0
+            ],
+            "dev_accuracy": 0.79,
+            "dev_joules": 5124.866657087015,
+            "target": 0.0,
+            "test": {
+              "n": 100,
+              "accuracy": 0.7,
+              "joules_total": 5434.4323971490685,
+              "joules_mean": 54.34432397149069,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 3.9273413659993093,
+              "seconds_p95": 8.165845659993646,
+              "final_tier_share": [
+                0.0,
+                1.0
+              ],
+              "escalation_rate": [
+                1.0
+              ],
+              "accepted_wrong_rate": 0.0,
+              "inr": 0.012076516438109041,
+              "g_co2": 1.056695188334541
+            },
+            "saved_vs_largest_pct": 0.0,
+            "oracle_savings_achieved_pct": 0.0
+          }
+        },
+        {
+          "thresholds": [
+            0.86
+          ],
+          "dev_accuracy": 0.78,
+          "dev_joules": 6023.968033138332,
+          "dev_reference_accuracy": 0.79,
+          "target": 0.02,
+          "test": {
+            "n": 100,
+            "accuracy": 0.69,
+            "joules_total": 6326.361119834432,
+            "joules_mean": 63.26361119834432,
+            "wasted_joules_total": 1428.6847843150563,
+            "seconds_mean": 4.783897690000012,
+            "seconds_p95": 10.415004419987962,
+            "final_tier_share": [
+              0.18,
+              0.82
+            ],
+            "escalation_rate": [
+              0.82
+            ],
+            "accepted_wrong_rate": 0.2222222222222222,
+            "inr": 0.01405858026629874,
+            "g_co2": 1.2301257733011395
+          },
+          "saved_vs_largest_pct": -16.41254610423113,
+          "oracle_savings_achieved_pct": -33.78689765507225,
+          "random_same_escalation": {
+            "accuracy": 0.6521600000000001,
+            "accuracy_p05": 0.61,
+            "accuracy_p95": 0.69,
+            "joules_total": 6147.223666666571,
+            "seconds_mean": 4.719308106562565,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              0.96
+            ],
+            "dev_accuracy": 0.77,
+            "dev_joules": 5047.090210734538,
+            "target": 0.02,
+            "test": {
+              "n": 100,
+              "accuracy": 0.7,
+              "joules_total": 5434.4323971490685,
+              "joules_mean": 54.34432397149069,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 3.9273413659993093,
+              "seconds_p95": 8.165845659993646,
+              "final_tier_share": [
+                0.0,
+                1.0
+              ],
+              "escalation_rate": [
+                1.0
+              ],
+              "accepted_wrong_rate": 0.0,
+              "inr": 0.012076516438109041,
+              "g_co2": 1.056695188334541
+            },
+            "saved_vs_largest_pct": 0.0,
+            "oracle_savings_achieved_pct": 0.0
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.7
+            ],
+            "thresholds": [
+              0.6
+            ],
+            "dev_accuracy": 0.77,
+            "dev_joules": 5055.106971089383,
+            "target": 0.02,
+            "test": {
+              "n": 100,
+              "accuracy": 0.72,
+              "joules_total": 5402.77352100517,
+              "joules_mean": 54.027735210051695,
+              "wasted_joules_total": 130.59994237660715,
+              "seconds_mean": 3.9308151689995428,
+              "seconds_p95": 8.165845659993646,
+              "final_tier_share": [
+                0.05,
+                0.95
+              ],
+              "escalation_rate": [
+                0.95
+              ],
+              "accepted_wrong_rate": 0.2,
+              "inr": 0.012006163380011488,
+              "g_co2": 1.0505392957510051
+            },
+            "saved_vs_largest_pct": 0.5825608606430961,
+            "oracle_savings_achieved_pct": 1.1992608612581364
+          }
+        },
+        {
+          "thresholds": [
+            0.72
+          ],
+          "dev_accuracy": 0.74,
+          "dev_joules": 4872.517770535254,
+          "dev_reference_accuracy": 0.79,
+          "target": 0.05,
+          "test": {
+            "n": 100,
+            "accuracy": 0.66,
+            "joules_total": 5495.73370786757,
+            "joules_mean": 54.9573370786757,
+            "wasted_joules_total": 1166.3478060220882,
+            "seconds_mean": 4.197280716999958,
+            "seconds_p95": 10.415004419987962,
+            "final_tier_share": [
+              0.36,
+              0.64
+            ],
+            "escalation_rate": [
+              0.64
+            ],
+            "accepted_wrong_rate": 0.3055555555555556,
+            "inr": 0.012212741573039044,
+            "g_co2": 1.0686148876409163
+          },
+          "saved_vs_largest_pct": -1.1280168054102677,
+          "oracle_savings_achieved_pct": -2.3221374743174676,
+          "random_same_escalation": {
+            "accuracy": 0.603075,
+            "accuracy_p05": 0.55,
+            "accuracy_p95": 0.65,
+            "joules_total": 5156.588819648471,
+            "seconds_mean": 4.0029560103066775,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              0.76
+            ],
+            "dev_accuracy": 0.74,
+            "dev_joules": 4849.680223424129,
+            "target": 0.05,
+            "test": {
+              "n": 100,
+              "accuracy": 0.73,
+              "joules_total": 5195.43828376875,
+              "joules_mean": 51.9543828376875,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 3.7771106669996515,
+              "seconds_p95": 8.145201215000998,
+              "final_tier_share": [
+                0.05,
+                0.95
+              ],
+              "escalation_rate": [
+                0.95
+              ],
+              "accepted_wrong_rate": 0.2,
+              "inr": 0.011545418408375,
+              "g_co2": 1.0102241107328125
+            },
+            "saved_vs_largest_pct": 4.3977750740941435,
+            "oracle_savings_achieved_pct": 9.053267871713157
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.5
+            ],
+            "thresholds": [
+              0.6
+            ],
+            "dev_accuracy": 0.74,
+            "dev_joules": 4684.172666808974,
+            "target": 0.05,
+            "test": {
+              "n": 100,
+              "accuracy": 0.67,
+              "joules_total": 4942.228717003843,
+              "joules_mean": 49.42228717003842,
+              "wasted_joules_total": 501.92043795244365,
+              "seconds_mean": 3.7064394260002884,
+              "seconds_p95": 8.600695650000125,
+              "final_tier_share": [
+                0.34,
+                0.66
+              ],
+              "escalation_rate": [
+                0.66
+              ],
+              "accepted_wrong_rate": 0.35294117647058826,
+              "inr": 0.010982730482230762,
+              "g_co2": 0.9609889171951916
+            },
+            "saved_vs_largest_pct": 9.057131346475826,
+            "oracle_savings_achieved_pct": 18.645027280260674
+          }
+        },
+        {
+          "thresholds": [
+            0.32
+          ],
+          "dev_accuracy": 0.69,
+          "dev_joules": 3865.632171026464,
+          "dev_reference_accuracy": 0.79,
+          "target": 0.1,
+          "test": {
+            "n": 100,
+            "accuracy": 0.63,
+            "joules_total": 3979.4357725772634,
+            "joules_mean": 39.794357725772635,
+            "wasted_joules_total": 725.2956326724843,
+            "seconds_mean": 3.1573239319998536,
+            "seconds_p95": 10.397444215015275,
+            "final_tier_share": [
+              0.64,
+              0.36
+            ],
+            "escalation_rate": [
+              0.36
+            ],
+            "accepted_wrong_rate": 0.375,
+            "inr": 0.008843190605727252,
+            "g_co2": 0.7737791780011345
+          },
+          "saved_vs_largest_pct": 26.77366315818196,
+          "oracle_savings_achieved_pct": 55.11631231571488,
+          "random_same_escalation": {
+            "accuracy": 0.52824,
+            "accuracy_p05": 0.48,
+            "accuracy_p95": 0.58,
+            "joules_total": 3633.336085782836,
+            "seconds_mean": 2.9039287926823785,
+            "sims": 2000
+          },
+          "preroute": {
+            "thresholds": [
+              0.64
+            ],
+            "dev_accuracy": 0.69,
+            "dev_joules": 4501.582960682527,
+            "target": 0.1,
+            "test": {
+              "n": 100,
+              "accuracy": 0.68,
+              "joules_total": 4409.651854727516,
+              "joules_mean": 44.09651854727517,
+              "wasted_joules_total": 0.0,
+              "seconds_mean": 3.239461942000198,
+              "seconds_p95": 7.779410779984026,
+              "final_tier_share": [
+                0.29,
+                0.71
+              ],
+              "escalation_rate": [
+                0.71
+              ],
+              "accepted_wrong_rate": 0.5172413793103449,
+              "inr": 0.009799226343838926,
+              "g_co2": 0.857432305085906
+            },
+            "saved_vs_largest_pct": 18.857177116770416,
+            "oracle_savings_achieved_pct": 38.819419562431115
+          },
+          "hybrid": {
+            "preroute_thresholds": [
+              0.0
+            ],
+            "thresholds": [
+              0.4
+            ],
+            "dev_accuracy": 0.7,
+            "dev_joules": 3976.2170483784234,
+            "target": 0.1,
+            "test": {
+              "n": 100,
+              "accuracy": 0.63,
+              "joules_total": 4053.5830228038076,
+              "joules_mean": 40.53583022803807,
+              "wasted_joules_total": 743.9107542819227,
+              "seconds_mean": 3.210984087999677,
+              "seconds_p95": 10.397444215015275,
+              "final_tier_share": [
+                0.63,
+                0.37
+              ],
+              "escalation_rate": [
+                0.37
+              ],
+              "accepted_wrong_rate": 0.36507936507936506,
+              "inr": 0.00900796227289735,
+              "g_co2": 0.7881966988785181
+            },
+            "saved_vs_largest_pct": 25.409265833717278,
+            "oracle_savings_achieved_pct": 52.30756146927195
+          }
+        }
+      ]
+    },
+    {
+      "task": "math",
+      "tiers": [
+        "t1"
+      ],
+      "models": [
+        "qwen2.5:0.5b"
+      ],
+      "n_test": 100,
+      "energy_kinds": [
+        "measured"
+      ],
+      "baselines": {
+        "always_t1": {
+          "n": 100,
+          "accuracy": 0.36,
+          "joules_total": 16526.266590673615,
+          "joules_mean": 165.26266590673615,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 11.699886215001461,
+          "seconds_p95": 24.08097690002468,
+          "final_tier_share": [
+            1.0
+          ],
+          "escalation_rate": [],
+          "accepted_wrong_rate": 0.0,
+          "inr": 0.036725036868163585,
+          "g_co2": 3.2134407259643134
+        },
+        "oracle": {
+          "n": 100,
+          "accuracy": 0.36,
+          "joules_total": 16526.266590673615,
+          "joules_mean": 165.26266590673615,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 11.699886215001461,
+          "seconds_p95": 24.08097690002468,
+          "final_tier_share": [
+            1.0
+          ],
+          "escalation_rate": [],
+          "accepted_wrong_rate": 0.0,
+          "inr": 0.036725036868163585,
+          "g_co2": 3.2134407259643134
+        },
+        "always_largest": {
+          "n": 100,
+          "accuracy": 0.36,
+          "joules_total": 16526.266590673615,
+          "joules_mean": 165.26266590673615,
+          "wasted_joules_total": 0.0,
+          "seconds_mean": 11.699886215001461,
+          "seconds_p95": 24.08097690002468,
+          "final_tier_share": [
+            1.0
+          ],
+          "escalation_rate": [],
+          "accepted_wrong_rate": 0.0,
+          "inr": 0.036725036868163585,
+          "g_co2": 3.2134407259643134
+        }
+      },
+      "ladder": [
+        {
+          "target": 0.01,
+          "thresholds": [],
+          "dev_accuracy": 0.42,
+          "test": {
+            "n": 100,
+            "accuracy": 0.36,
+            "joules_total": 16526.266590673615,
+            "joules_mean": 165.26266590673615,
+            "wasted_joules_total": 0.0,
+            "seconds_mean": 11.699886215001461,
+            "seconds_p95": 24.08097690002468,
+            "final_tier_share": [
+              1.0
+            ],
+            "escalation_rate": [],
+            "accepted_wrong_rate": 0.0,
+            "inr": 0.036725036868163585,
+            "g_co2": 3.2134407259643134
+          },
+          "saved_vs_largest_pct": 0.0,
+          "oracle_savings_achieved_pct": NaN
+        },
+        {
+          "target": 0.0,
+          "thresholds": [],
+          "dev_accuracy": 0.42,
+          "test": {
+            "n": 100,
+            "accuracy": 0.36,
+            "joules_total": 16526.266590673615,
+            "joules_mean": 165.26266590673615,
+            "wasted_joules_total": 0.0,
+            "seconds_mean": 11.699886215001461,
+            "seconds_p95": 24.08097690002468,
+            "final_tier_share": [
+              1.0
+            ],
+            "escalation_rate": [],
+            "accepted_wrong_rate": 0.0,
+            "inr": 0.036725036868163585,
+            "g_co2": 3.2134407259643134
+          },
+          "saved_vs_largest_pct": 0.0,
+          "oracle_savings_achieved_pct": NaN
+        },
+        {
+          "target": 0.02,
+          "thresholds": [],
+          "dev_accuracy": 0.42,
+          "test": {
+            "n": 100,
+            "accuracy": 0.36,
+            "joules_total": 16526.266590673615,
+            "joules_mean": 165.26266590673615,
+            "wasted_joules_total": 0.0,
+            "seconds_mean": 11.699886215001461,
+            "seconds_p95": 24.08097690002468,
+            "final_tier_share": [
+              1.0
+            ],
+            "escalation_rate": [],
+            "accepted_wrong_rate": 0.0,
+            "inr": 0.036725036868163585,
+            "g_co2": 3.2134407259643134
+          },
+          "saved_vs_largest_pct": 0.0,
+          "oracle_savings_achieved_pct": NaN
+        },
+        {
+          "target": 0.05,
+          "thresholds": [],
+          "dev_accuracy": 0.42,
+          "test": {
+            "n": 100,
+            "accuracy": 0.36,
+            "joules_total": 16526.266590673615,
+            "joules_mean": 165.26266590673615,
+            "wasted_joules_total": 0.0,
+            "seconds_mean": 11.699886215001461,
+            "seconds_p95": 24.08097690002468,
+            "final_tier_share": [
+              1.0
+            ],
+            "escalation_rate": [],
+            "accepted_wrong_rate": 0.0,
+            "inr": 0.036725036868163585,
+            "g_co2": 3.2134407259643134
+          },
+          "saved_vs_largest_pct": 0.0,
+          "oracle_savings_achieved_pct": NaN
+        },
+        {
+          "target": 0.1,
+          "thresholds": [],
+          "dev_accuracy": 0.42,
+          "test": {
+            "n": 100,
+            "accuracy": 0.36,
+            "joules_total": 16526.266590673615,
+            "joules_mean": 165.26266590673615,
+            "wasted_joules_total": 0.0,
+            "seconds_mean": 11.699886215001461,
+            "seconds_p95": 24.08097690002468,
+            "final_tier_share": [
+              1.0
+            ],
+            "escalation_rate": [],
+            "accepted_wrong_rate": 0.0,
+            "inr": 0.036725036868163585,
+            "g_co2": 3.2134407259643134
+          },
+          "saved_vs_largest_pct": 0.0,
+          "oracle_savings_achieved_pct": NaN
+        }
+      ]
+    }
+  ],
+  "missing_tasks": [],
+  "mixed": {
+    "tasks": [
+      "classify",
+      "extract",
+      "qa",
+      "math"
+    ],
+    "baselines": {
+      "always_largest": {
+        "n": 400,
+        "accuracy": 0.715,
+        "joules_total": 39366.872453943375,
+        "seconds_mean": 6.743545311000417,
+        "inr": 0.08748193878654083,
+        "g_co2": 7.654669643822322
+      },
+      "always_t1": {
+        "n": 400,
+        "accuracy": 0.4575,
+        "joules_total": 22969.332813194203,
+        "seconds_mean": 4.249382924749807,
+        "inr": 0.05104296180709823,
+        "g_co2": 4.466259158121096
+      },
+      "oracle": {
+        "n": 400,
+        "accuracy": 0.7425,
+        "joules_total": 30302.963471537063,
+        "seconds_mean": 5.367206835249817,
+        "inr": 0.06733991882563792,
+        "g_co2": 5.892242897243317
+      }
+    },
+    "ladder": [
+      {
+        "target": 0.01,
+        "test": {
+          "n": 400,
+          "accuracy": 0.705,
+          "joules_total": 44110.39597515506,
+          "seconds_mean": 7.753751796999714,
+          "inr": 0.09802310216701124,
+          "g_co2": 8.577021439613484
+        },
+        "preroute": {
+          "test": {
+            "n": 400,
+            "accuracy": 0.705,
+            "joules_total": 38854.46031252443,
+            "seconds_mean": 6.6686429335004505,
+            "inr": 0.08634324513894319,
+            "g_co2": 7.5550339496575285
+          }
+        },
+        "hybrid": {
+          "test": {
+            "n": 400,
+            "accuracy": 0.7,
+            "joules_total": 36945.90711154741,
+            "seconds_mean": 6.433389362250236,
+            "inr": 0.08210201580343868,
+            "g_co2": 7.183926382800884
+          }
+        }
+      },
+      {
+        "target": 0.0,
+        "test": {
+          "n": 400,
+          "accuracy": 0.71,
+          "joules_total": 45091.30747956858,
+          "seconds_mean": 7.949248974249713,
+          "inr": 0.1002029055101524,
+          "g_co2": 8.767754232138333
+        },
+        "preroute": {
+          "test": {
+            "n": 400,
+            "accuracy": 0.7125,
+            "joules_total": 39266.01466373423,
+            "seconds_mean": 6.730395495250414,
+            "inr": 0.08725781036385385,
+            "g_co2": 7.635058406837212
+          }
+        },
+        "hybrid": {
+          "test": {
+            "n": 400,
+            "accuracy": 0.7025,
+            "joules_total": 38042.07797517685,
+            "seconds_mean": 6.546193724750265,
+            "inr": 0.08453795105594855,
+            "g_co2": 7.397070717395498
+          }
+        }
+      },
+      {
+        "target": 0.02,
+        "test": {
+          "n": 400,
+          "accuracy": 0.6975,
+          "joules_total": 43898.82311529825,
+          "seconds_mean": 7.718090511499685,
+          "inr": 0.09755294025621833,
+          "g_co2": 8.535882272419103
+        },
+        "preroute": {
+          "test": {
+            "n": 400,
+            "accuracy": 0.7025,
+            "joules_total": 38515.222546304634,
+            "seconds_mean": 6.6127494097503225,
+            "inr": 0.08558938343623253,
+            "g_co2": 7.489071050670345
+          }
+        },
+        "hybrid": {
+          "test": {
+            "n": 400,
+            "accuracy": 0.7075,
+            "joules_total": 36579.67426544245,
+            "seconds_mean": 6.39331389150022,
+            "inr": 0.08128816503431656,
+            "g_co2": 7.112714440502699
+          }
+        }
+      },
+      {
+        "target": 0.05,
+        "test": {
+          "n": 400,
+          "accuracy": 0.6875,
+          "joules_total": 42446.761954570815,
+          "seconds_mean": 7.468229444499666,
+          "inr": 0.09432613767682403,
+          "g_co2": 8.253537046722101
+        },
+        "preroute": {
+          "test": {
+            "n": 400,
+            "accuracy": 0.6875,
+            "joules_total": 37209.73089342824,
+            "seconds_mean": 6.4111717050003065,
+            "inr": 0.08268829087428498,
+            "g_co2": 7.235225451499935
+          }
+        },
+        "hybrid": {
+          "test": {
+            "n": 400,
+            "accuracy": 0.6775,
+            "joules_total": 34910.297035352036,
+            "seconds_mean": 6.142395329250357,
+            "inr": 0.07757843785633786,
+            "g_co2": 6.788113312429562
+          }
+        }
+      },
+      {
+        "target": 0.1,
+        "test": {
+          "n": 400,
+          "accuracy": 0.6475,
+          "joules_total": 36057.58143087322,
+          "seconds_mean": 6.41803137099967,
+          "inr": 0.08012795873527383,
+          "g_co2": 7.01119638933646
+        },
+        "preroute": {
+          "test": {
+            "n": 400,
+            "accuracy": 0.655,
+            "joules_total": 34566.456172854756,
+            "seconds_mean": 6.001925849000327,
+            "inr": 0.07681434705078835,
+            "g_co2": 6.72125536694398
+          }
+        },
+        "hybrid": {
+          "test": {
+            "n": 400,
+            "accuracy": 0.6425,
+            "joules_total": 32288.669257841044,
+            "seconds_mean": 5.764678782499978,
+            "inr": 0.07175259835075788,
+            "g_co2": 6.278352355691315
+          }
+        }
+      }
+    ]
+  }
+}

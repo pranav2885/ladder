@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+backend/ladder.db
+backend/ladder.db.bak*
+backend/smoke.db
+backend/smoke.yaml
+backend/logs/
+.claude/
+backend/datasets/raw/
+node_modules/
+dist/
