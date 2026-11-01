@@ -199,6 +199,53 @@ async def test_power_drop_below_idle_aborts_without_writing(setup):
         assert s.exec(select(CacheItem)).all() == []
 
 
+async def test_power_capped_mode_keeps_rows_but_tags_them(setup):
+    cfg, engine, backend, _, data = setup
+    clock = {"t": 0.0}
+
+    class Slow(FakeBackend):
+        async def generate(self, req):
+            clock["t"] += 10.0  # 10 W for 10 s, below the 29 W idle baseline
+            return await super().generate(req)
+
+    meter = Meter(ConstPower(), idle_watts=29.0, clock=lambda: clock["t"], autostart=False)
+    jobs = plan_jobs(cfg, [TASKS["math"]], ["dev"], cfg.tiers[:1], data, reps=1)
+    with Session(engine) as s:
+        stats = await CacheRunner(cfg, s, {"ollama": Slow(backend.answers)}, meter, log=lambda m: None,
+                                  power_plugged=lambda: True, power_capped=True).run(jobs)
+    assert stats["done"] == 5
+    with Session(engine) as s:
+        assert {r.energy_kind for r in s.exec(select(CacheItem)).all()} == {"measured-capped"}
+    with Session(engine) as s, pytest.raises(EnergyAnomalyError, match="battery"):
+        await CacheRunner(cfg, s, {"ollama": backend}, meter, log=lambda m: None,
+                          power_plugged=lambda: False, power_capped=True).run(
+            plan_jobs(cfg, [TASKS["math"]], ["dev"], cfg.tiers[1:2], data, reps=1))
+
+
+def test_full_power_estimator_fits_tokens(tmp_path):
+    from ladder.eval.experiment import full_power_estimator
+
+    engine = make_engine(tmp_path / "e.db")
+    with Session(engine) as s:
+        for i in range(40):
+            p, c = 50 + (i * 7) % 13, 10 + 3 * i  # independent prompt/completion lengths
+            s.add(CacheItem(task="math", split="dev", item_id=f"m{i}", tier="t3", model="m", backend="b",
+                            request_hash=f"h{i}", output_text="", finish_reason="stop", prompt_tokens=p,
+                            completion_tokens=c, validators_json="{}", score=1, correct=True,
+                            wall_seconds=0.5 + 0.2 * c, joules_gross=0, joules_net=2 + 0.1 * p + 8 * c,
+                            idle_watts=0, energy_source="lhm", energy_kind="measured", energy_samples=1))
+        s.add(CacheItem(task="math", split="dev", item_id="cap", tier="t3", model="m", backend="b",
+                        request_hash="hc", output_text="", finish_reason="stop", prompt_tokens=60,
+                        completion_tokens=300, validators_json="{}", score=1, correct=True,
+                        wall_seconds=999, joules_gross=0, joules_net=1, idle_watts=0,
+                        energy_source="lhm", energy_kind="measured-capped", energy_samples=1))
+        s.commit()
+        fit = full_power_estimator(s, "t3")
+    j, sec = fit(60, 300)
+    assert j == pytest.approx(2 + 6 + 2400, rel=1e-6)  # capped row is excluded from the fit
+    assert sec == pytest.approx(60.5, rel=1e-6)
+
+
 async def test_on_battery_aborts(setup):
     cfg, engine, backend, meter, data = setup
     jobs = plan_jobs(cfg, [TASKS["math"]], ["dev"], cfg.tiers[:1], data, reps=1)

@@ -165,6 +165,8 @@ def cache_run(
     limit: int = typer.Option(0, help="only the first N items per task/split (0 = all)"),
     reps: int = typer.Option(None, help="override cache.energy_reps (1 = main run only)"),
     allow_mixed_energy: bool = typer.Option(False, help="allow rows from different energy sources"),
+    power_capped: bool = typer.Option(False, help="CPU is under a known power cap: keep answers, "
+                                      "tag energy/time as capped (estimated later from full-power rows)"),
     config: str = ConfigOpt,
 ) -> None:
     """Run every item through every tier, storing answers, logprobs, correctness and energy."""
@@ -206,7 +208,11 @@ def cache_run(
                               backend_info=json.dumps(versions))
             s.add(machine)
             s.commit()
-            runner = CacheRunner(cfg, s, backends, meter, machine.id, log=typer.echo)
+            runner = CacheRunner(cfg, s, backends, meter, machine.id, log=typer.echo,
+                                 power_capped=power_capped)
+            if power_capped:
+                typer.secho("power-capped mode: answers are kept; energy/time rows are tagged "
+                            "'-capped' and replaced by full-power estimates in the eval", fg="yellow")
             jobs = plan_jobs(cfg, tasks, splits, tiers, data,
                              reps if reps is not None else cfg.cache.energy_reps)
             try:

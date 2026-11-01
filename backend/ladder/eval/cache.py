@@ -145,8 +145,13 @@ class CacheRunner:
         machine_id: int | None = None,
         log: Callable[[str], None] = print,
         power_plugged: Callable[[], bool | None] | None = None,
+        power_capped: bool = False,
     ):
         self.power_plugged = power_plugged or _power_plugged
+        # The CPU is knowingly running under a firmware power cap: answers are still valid
+        # (temperature 0, fixed seed) but energy/time are not comparable, so rows are tagged
+        # and their energy/time are later estimated from full-power rows of the same tier.
+        self.power_capped = power_capped
         self.cfg = cfg
         self.session = session
         self.backends = backends
@@ -193,7 +198,8 @@ class CacheRunner:
             wall_seconds=result.wall_seconds, eval_seconds=result.eval_seconds,
             prompt_eval_seconds=result.prompt_eval_seconds, load_seconds=result.load_seconds,
             joules_gross=m.joules_gross, joules_net=m.joules_net, idle_watts=m.idle_watts,
-            energy_source=m.source, energy_kind=m.kind, energy_samples=m.samples,
+            energy_source=m.source, energy_kind=f"{m.kind}-capped" if self.power_capped else m.kind,
+            energy_samples=m.samples,
             machine_id=self.machine_id,
         )
         self.session.add(row)
@@ -209,7 +215,7 @@ class CacheRunner:
         if self.power_plugged() is False:
             raise EnergyAnomalyError("laptop is on battery; plug in the charger and resume")
         idle = self.meter.idle_watts
-        if idle > 0 and seconds >= ANOMALY_MIN_SECONDS and avg_watts < idle * ANOMALY_IDLE_FRACTION:
+        if not self.power_capped and idle > 0 and seconds >= ANOMALY_MIN_SECONDS and avg_watts < idle * ANOMALY_IDLE_FRACTION:
             raise EnergyAnomalyError(
                 f"{job.tier.name} {job.item['id']}: {avg_watts:.1f} W average over {seconds:.0f}s "
                 f"of generation is below the {idle:.1f} W idle baseline; the power state or sensor "

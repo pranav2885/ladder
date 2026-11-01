@@ -8,6 +8,7 @@ silently missing items.
 from __future__ import annotations
 
 import statistics
+from typing import Any
 from collections import defaultdict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -49,6 +50,32 @@ class TaskData:
     splits: dict[str, SplitData]
 
 
+ESTIMATED_KIND = "estimated-from-full-power"
+MIN_FIT_ROWS = 30
+
+
+def full_power_estimator(session: Session, tier: str):
+    """Energy/time model for rows recorded under a known CPU power cap.
+
+    Fits net joules and wall seconds as a + b*prompt_tokens + c*completion_tokens on the same
+    tier's rows measured at full power (all tasks), so capped rows get comparable estimates.
+    """
+    rows = session.exec(select(CacheItem).where(CacheItem.tier == tier, CacheItem.rep == 0)).all()
+    full = [r for r in rows if not r.energy_kind.endswith("-capped")]
+    if len(full) < MIN_FIT_ROWS:
+        raise ValueError(f"only {len(full)} full-power rows for tier {tier}; need {MIN_FIT_ROWS}")
+    A = np.array([[1.0, r.prompt_tokens, r.completion_tokens] for r in full])
+    cj = np.linalg.lstsq(A, np.array([r.joules_net for r in full]), rcond=None)[0]
+    cs = np.linalg.lstsq(A, np.array([r.wall_seconds for r in full]), rcond=None)[0]
+
+    def predict(prompt_tokens: int, completion_tokens: int) -> tuple[float, float]:
+        x = np.array([1.0, prompt_tokens, completion_tokens])
+        return float(max(0.0, x @ cj)), float(max(0.0, x @ cs))
+
+    predict.n_rows = len(full)  # type: ignore[attr-defined]
+    return predict
+
+
 def load_task(cfg: Config, session: Session, task: str) -> TaskData | None:
     rows = session.exec(select(CacheItem).where(CacheItem.task == task)).all()
     by_key: dict[tuple, list[CacheItem]] = defaultdict(list)
@@ -81,6 +108,7 @@ def load_task(cfg: Config, session: Session, task: str) -> TaskData | None:
     names_sorted = sorted(names)
 
     splits = {}
+    estimators: dict[str, Any] = {}
     for sp in SPLITS:
         ids = items[sp]
         n, T = len(ids), len(tiers)
@@ -94,9 +122,14 @@ def load_task(cfg: Config, session: Session, task: str) -> TaskData | None:
                 rs = by_key[(sp, i, t)]
                 main = next(r for r in rs if r.rep == 0)
                 correct[a, b] = main.correct
-                joules[a, b] = statistics.median(r.joules_net for r in rs)
-                seconds[a, b] = statistics.median(r.wall_seconds for r in rs)
-                kinds |= {r.energy_kind for r in rs}
+                if main.energy_kind.endswith("-capped"):
+                    fit = estimators.setdefault(t, full_power_estimator(session, t))
+                    joules[a, b], seconds[a, b] = fit(main.prompt_tokens, main.completion_tokens)
+                    kinds.add(ESTIMATED_KIND)
+                else:
+                    joules[a, b] = statistics.median(r.joules_net for r in rs)
+                    seconds[a, b] = statistics.median(r.wall_seconds for r in rs)
+                    kinds |= {r.energy_kind for r in rs}
                 f = feats[(sp, i, t)]
                 X[b][a] = [f.get(k, 0.0) for k in names_sorted]
         P = np.array([[prompt_features(it).get(k, 0.0) for k in prompt_names] for it in item_dicts[sp]])
