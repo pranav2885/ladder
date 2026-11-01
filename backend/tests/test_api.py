@@ -59,6 +59,8 @@ def test_api_endpoints(tmp_path):
     (tmp_path / "reports" / "results.json").write_text(json.dumps({"tasks": []}))
     assert client.get("/api/results").json() == {"tasks": []}
     assert "math" in client.get("/api/tasks").json()
+    ref = client.get("/api/open-models", params={"task": "math"}).json()
+    assert ref["category"] == "math" and ref["source_url"].startswith("https://arena.ai")
 
     r = client.post("/v1/chat/completions", json={"model": "ladder-math",
                                                   "messages": [{"role": "user", "content": "2+2?"}]})
@@ -67,6 +69,7 @@ def test_api_endpoints(tmp_path):
     body = r.json()
     assert body["choices"][0]["message"]["content"] == "Answer: 4"
     assert [s["tier"] for s in body["ladder"]["steps"]] == ["t1", "t2"]
+    assert body["ladder"]["open_model_reference"]["category"] == "math"  # reference, never called
     s = client.post("/v1/chat/completions", json={"model": "ladder-math", "stream": True,
                                                   "messages": [{"role": "user", "content": "2+2?"}]})
     assert s.text.strip().endswith("data: [DONE]")

@@ -82,6 +82,32 @@ export type Trace = {
   notes: string;
 };
 
+export type OpenModel = {
+  rank: number;
+  model: string;
+  org: string;
+  license: string;
+  score: number;
+  votes: number;
+  params_b: number | null;
+  est_q4_ram_gb: number | null;
+  fits_this_machine: boolean | null;
+};
+
+export type OpenRef = {
+  category: string;
+  category_label: string;
+  mapped_from_task: string | null;
+  source: string;
+  source_url: string;
+  as_of: string;
+  best: OpenModel;
+  best_that_fits: OpenModel | null;
+  major_labs: OpenModel[];
+  ram_gb: number | null;
+  note: string;
+};
+
 export type TaskInfo = Record<
   string,
   {
@@ -104,6 +130,7 @@ export const api = {
   results: () => get<Results>("/api/results"),
   machine: () => get<any>("/api/machine"),
   tasks: () => get<TaskInfo>("/api/tasks"),
+  openModels: (task: string) => get<OpenRef>(`/api/open-models?task=${encodeURIComponent(task)}`),
   example: (task: string) => get<{ input: Record<string, string>; gold: unknown }>(`/api/example?task=${task}`),
   ladder: async (body: { task: string; input: Record<string, string>; quality: string; gold?: unknown }) => {
     const r = await fetch("/api/ladder", {

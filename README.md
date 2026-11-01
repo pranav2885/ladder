@@ -57,6 +57,14 @@ python -m venv .venv
 - Frontend dev: `cd frontend && npm install && npm run dev` (proxies `/api` to :8000);
   `npm run build` produces `frontend/dist`, which `ladder serve` serves.
 - Live requests are paused while `ladder cache run` is measuring, so they don't distort its readings.
+- **Open-weight reference.** For each prompt, Live Ladder and the API (`open_model_reference` in
+  the trace, or `GET /api/open-models?task=…`) also show the strongest *open-weight, downloadable*
+  models for that kind of prompt: the top model, the best model per major lab (Google, Meta,
+  Alibaba, Mistral, Microsoft, OpenAI, DeepSeek, Nvidia, …) and the best one that would fit this
+  machine's RAM (rough 4-bit estimate, only when the model name states its size). The data is a
+  dated snapshot of the LMArena text leaderboard filtered to non-proprietary licences
+  (`backend/ladder/data/open_models_arena_2026-10-28.json`, with source URLs). These models are a
+  reference only: Ladder never downloads, calls or runs them, and no hosted AI API is used.
 
 ## Datasets
 

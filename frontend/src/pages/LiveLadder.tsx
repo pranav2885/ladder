@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { api, type TaskInfo, type Trace } from "../api";
+import { api, type OpenRef, type TaskInfo, type Trace } from "../api";
+import OpenModels from "../OpenModels";
 import { Card, Chips, Empty, num } from "../ui";
 
 const QUALITIES = [
@@ -55,6 +56,10 @@ export default function LiveLadder({ measuring }: { measuring: boolean }) {
   const [shown, setShown] = useState(0);
   const [busy, setBusy] = useState(false);
   const [override, setOverride] = useState(false);
+  const [openRef, setOpenRef] = useState<OpenRef | null>(null);
+  useEffect(() => {
+    api.openModels(task).then(setOpenRef).catch(() => setOpenRef(null));
+  }, [task]);
 
   useEffect(() => {
     api.tasks().then((t) => { setTasks(t); if (t && !t[task]) setTask(Object.keys(t)[0]); }).catch((e) => setErr(String(e)));
@@ -137,6 +142,7 @@ export default function LiveLadder({ measuring }: { measuring: boolean }) {
           </Card>
         ))}
         {trace && shown >= trace.steps.length && <Receipt t={trace} />}
+        {openRef && <OpenModels r={openRef} />}
       </div>
     </div>
   );

@@ -69,6 +69,12 @@ def chat_to_item(task: str, messages: list[dict[str, Any]]) -> dict[str, Any]:
     return {"input": {"question" if task == "math" else "text": content}}
 
 
+def _open_reference(task: str, inputs: dict[str, str]) -> dict[str, Any]:
+    from ladder.open_models import recommend
+
+    return recommend(task, " ".join(inputs.values()), ram_gb=machine_info()["ram_gb"])
+
+
 def create_app(cfg: Config | None = None, router=None) -> FastAPI:
     cfg = cfg or load_config()
     engine = make_engine(cfg.path(cfg.cache.db_path))
@@ -136,6 +142,13 @@ def create_app(cfg: Config | None = None, router=None) -> FastAPI:
     def tasks() -> dict[str, Any]:
         return get_router().describe()
 
+    @app.get("/api/open-models")
+    def open_models(task: str | None = None, text: str = "") -> dict[str, Any]:
+        """Best open-weight models for this kind of prompt (sourced snapshot; never run)."""
+        from ladder.open_models import recommend
+
+        return recommend(task, text, ram_gb=machine_info()["ram_gb"])
+
     @app.get("/api/example")
     def example(task: str) -> dict[str, Any]:
         try:
@@ -150,9 +163,11 @@ def create_app(cfg: Config | None = None, router=None) -> FastAPI:
         item = {"id": "live", "input": req.input, "gold": req.gold}
         try:
             with Session(engine) as s:
-                return await router_.answer(req.task, item, req.quality, session=s)
+                trace = await router_.answer(req.task, item, req.quality, session=s)
         except KeyError as e:
             raise HTTPException(400, str(e)) from e
+        trace["open_model_reference"] = _open_reference(req.task, req.input)
+        return trace
 
     @app.post("/v1/chat/completions")
     async def chat(req: ChatRequest) -> Any:
@@ -163,6 +178,7 @@ def create_app(cfg: Config | None = None, router=None) -> FastAPI:
         item = {"id": "live", **chat_to_item(task, req.messages), "gold": None}
         with Session(engine) as s:
             trace = await router_.answer(task, item, req.quality, session=s)
+        trace["open_model_reference"] = _open_reference(task, item["input"])
         headers = {"x-ladder-tier": trace["final_tier"],
                    "x-ladder-joules": f"{trace['joules_total']:.2f}",
                    "x-ladder-saved-joules": f"{trace['saved_joules_estimate']:.2f}"}
