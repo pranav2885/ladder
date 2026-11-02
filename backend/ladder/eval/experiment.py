@@ -206,7 +206,8 @@ def evaluate_task(cfg: Config, td: TaskData, targets: list[float]) -> dict:
             outcome = baselines.always(*args, tier=0)
         else:
             point = cal.search(p_dev, dev.correct, dev.joules, dev.seconds, target)
-            outcome = simulate(p_test, *args, point["thresholds"])
+            outcome = simulate(p_test, *args, point["thresholds"],
+                               start_tier=np.full(len(test.item_ids), point["start_tier"]))
         s = outcome.summary(T)
         saved = largest_j - s["joules_total"]
         point.update({

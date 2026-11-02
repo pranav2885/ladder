@@ -19,6 +19,7 @@ export type ModePoint = {
   test: Summary;
   thresholds?: number[];
   preroute_thresholds?: number[];
+  start_tier?: number; // cascade only: tiers below this are skipped, not escalated from
   saved_vs_largest_pct?: number;
   oracle_savings_achieved_pct?: number;
 };

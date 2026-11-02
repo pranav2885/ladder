@@ -40,6 +40,7 @@ class TaskRouter:
     largest_joules: float  # median net J of the largest tier on this task (cache, estimate)
     largest_seconds: float
     dev_accuracy: dict[str, float] = field(default_factory=dict)
+    start_tier: dict[str, int] = field(default_factory=dict)  # quality -> first tier tried
 
 
 class LiveRouter:
@@ -63,23 +64,25 @@ class LiveRouter:
             dev = td.splits["dev"]
             T = len(td.tiers)
             conf = [ConfidenceModel().fit(dev.features[t], dev.correct[:, t]) for t in range(T - 1)]
-            thresholds, dev_acc = {}, {}
+            thresholds, dev_acc, start = {}, {}, {}
             if T > 1:
                 p_dev, _ = confidence(td)
                 for q, target in QUALITY_TARGETS.items():
                     best = search(p_dev, dev.correct, dev.joules, dev.seconds, target)
                     thresholds[q], dev_acc[q] = best["thresholds"], best["dev_accuracy"]
+                    start[q] = best["start_tier"]
             big_j = np.concatenate([s.joules[:, -1] for s in td.splits.values()])
             big_s = np.concatenate([s.seconds[:, -1] for s in td.splits.values()])
             routers[name] = TaskRouter(task, [cfg.tier(t) for t in td.tiers], td.feature_names, conf,
                                        thresholds, float(np.median(big_j)), float(np.median(big_s)),
-                                       dev_acc)
+                                       dev_acc, start)
         return cls(cfg, routers, backends, meter)
 
     def describe(self) -> dict[str, Any]:
         return {
             name: {"tiers": [{"name": t.name, "model": t.model} for t in r.tiers],
-                   "thresholds": r.thresholds, "dev_accuracy": r.dev_accuracy,
+                   "thresholds": r.thresholds, "start_tier": r.start_tier,
+                   "dev_accuracy": r.dev_accuracy,
                    "largest_joules_estimate": r.largest_joules,
                    "input_fields": INPUT_FIELDS[name]}
             for name, r in self.routers.items()
@@ -93,9 +96,12 @@ class LiveRouter:
             raise KeyError(f"quality must be one of {list(QUALITY_TARGETS)}")
         r = self.routers[task_name]
         th = r.thresholds.get(quality, [])
+        first = r.start_tier.get(quality, 0)
         steps: list[dict[str, Any]] = []
         async with self.lock:
             for t, tier in enumerate(r.tiers):
+                if t < first:
+                    continue
                 req = build_request(r.task, item, tier, self.cfg.cache.top_logprobs)
                 with self.meter.measure() as h:
                     result = await self.backends[tier.backend].generate(req)

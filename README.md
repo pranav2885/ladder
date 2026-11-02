@@ -15,18 +15,23 @@ Energy is CPU package energy net of idle, and includes every rejected attempt. F
 
 | task | always-7B acc | cascade | pre-routing | hybrid |
 |---|---|---|---|---|
-| classify | 88.0% | 86.0% · 30.1% saved | 86.0% · 36.4% saved | 83.0% · 39.6% saved |
-| extract | 99.0% | 98.0% · −29.9% | 96.0% · 20.9% saved | 98.0% · 15.4% saved |
+| classify | 88.0% | 88.0% · 29.8% saved | 86.0% · 36.4% saved | 83.0% · 39.6% saved |
+| extract | 99.0% | 99.0% · 0.0% (starts at 7B) | 96.0% · 20.9% saved | 98.0% · 15.4% saved |
 | qa | 82.0% | 65.0% · 27.5% saved | 70.0% · 26.4% saved | 70.0% · 23.9% saved |
-| math | 92.0% | 91.0% · −36.2% | 89.0% · 22.9% saved | 87.0% · 14.8% saved |
-| **mixed (400)** | **90.2%** | 85.0% · −29.0% | **85.2% · 23.0% saved** | 84.5% · 16.1% saved |
+| math | 92.0% | 92.0% · 0.0% (starts at 7B) | 89.0% · 22.9% saved | 87.0% · 14.8% saved |
+| **mixed (400)** | **90.2%** | 86.0% · 2.6% saved | **85.2% · 23.0% saved** | 84.5% · 16.1% saved |
+
+| Results (classify) | Quality knob (mixed traffic, hybrid) |
+|---|---|
+| ![Results page](docs/results.png) | ![Quality knob page](docs/quality-knob.png) |
 
 What this shows:
 
 - **Pre-routing is the mode that pays off.** It picks a tier from the prompt alone and saves 23% energy
   on mixed traffic for 5 points of accuracy.
-- **Cascading costs more than it saves on math and extract.** 0.5B is escalated on 97–98% of those
-  items, so the wasted first attempts make the cascade 30–36% *more* expensive than running 7B.
+- **The cascade picks its start tier on dev.** On math and extract, 0.5B and 3B escalate so often
+  that trying them first would cost 30–36% *more* than running 7B, so calibration starts those tasks
+  at 7B (no savings, no loss); classify starts at 3B. Answer-then-check alone saves little here.
 - **QA misses the 1% target on test.** On dev, 7B (78%) was no better than 3B (79%), so the
   thresholds chosen there did not carry over.
 - Confidence-based escalation beats random escalation at the same rate on every task.

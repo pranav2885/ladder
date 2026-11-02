@@ -64,6 +64,14 @@ def test_calibration_meets_target_at_min_energy():
     assert loose["dev_joules"] == 4 and loose["dev_accuracy"] == 0.25  # always-smallest allowed
 
 
+def test_calibration_skips_a_small_tier_that_always_escalates():
+    correct = np.array([[0, 1, 1], [0, 1, 1], [0, 0, 1], [0, 1, 1]], dtype=bool)
+    probs = np.array([[0.1, 0.9, 1], [0.1, 0.9, 1], [0.1, 0.1, 1], [0.1, 0.9, 1]])
+    best = search(probs, correct, JOULES, SECONDS, target=0.0)
+    assert best["start_tier"] == 1  # trying tier 0 first would only add wasted joules
+    assert best["dev_joules"] == 4 + 4 + 14 + 4 and best["dev_accuracy"] == 1.0
+
+
 def test_confidence_model_learns_and_handles_constant_labels():
     rng = np.random.default_rng(0)
     X = rng.normal(size=(200, 2))

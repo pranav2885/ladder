@@ -95,6 +95,11 @@ def _fmt(x, pct=False, digits=1):
     return f"{100 * x:.{digits}f}%" if pct else f"{x:,.{digits}f}"
 
 
+def _less_or_more(joules: float, reference: float) -> str:
+    pct = 100 * (1 - joules / reference)
+    return f"{_fmt(pct)}% less" if pct >= 0 else f"{_fmt(-pct)}% more"
+
+
 def write(results: dict, out_dir: Path, main_target: float) -> list[Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     paths = [out_dir / "results.json", out_dir / "results.csv", out_dir / "results.md"]
@@ -116,13 +121,17 @@ def write(results: dict, out_dir: Path, main_target: float) -> list[Path]:
     for t in results["tasks"]:
         p, big = t["ladder"][k], t["baselines"]["always_largest"]
         rnd = p.get("random_same_escalation")
+        start = p.get("start_tier", 0)
+        rates = ", ".join(f"{x:.0%}" for x in p["test"]["escalation_rate"][start:]) or "–"
+        if start:
+            rates = f"starts at {t['models'][start]}; {rates}"
         lines.append(
             f"| {t['task']} | {' → '.join(t['models'])} | {_fmt(big['accuracy'], True)} | "
             f"{_fmt(p['test']['accuracy'], True)} | "
             f"{100 * (p['test']['accuracy'] - big['accuracy']):+.1f} pt | "
             f"{_fmt(p['saved_vs_largest_pct'])}% | {_fmt(p.get('oracle_savings_achieved_pct'))}% | "
             f"{_fmt(rnd['accuracy'], True) if rnd else '–'} | "
-            f"{', '.join(f'{x:.0%}' for x in p['test']['escalation_rate']) or '–'} |"
+            f"{rates} |"
         )
     lines += ["", "### Routing modes compared (test accuracy · energy saved vs always-largest)", "",
               "| task | cascade | pre-routing | hybrid |", "|---|---|---|---|"]
@@ -140,13 +149,13 @@ def write(results: dict, out_dir: Path, main_target: float) -> list[Path]:
         if mb:
             lines += ["", f"**Mixed traffic ({mp['n']} requests):** Ladder {_fmt(mp['accuracy'], True)} vs "
                       f"always-largest {_fmt(mb['accuracy'], True)}, using "
-                      f"{_fmt(100 * (1 - mp['joules_total'] / mb['joules_total']))}% less CPU energy "
+                      f"{_less_or_more(mp['joules_total'], mb['joules_total'])} CPU energy "
                       f"({_fmt(mp['joules_total'] / 1000, digits=1)} kJ vs {_fmt(mb['joules_total'] / 1000)} kJ; "
                       f"₹{mp['inr']:.4f} vs ₹{mb['inr']:.4f}).",
                       ""] + [
                           f"- {label}: {_fmt(m['ladder'][k][mode]['test']['accuracy'], True)} accuracy, "
-                          f"{_fmt(100 * (1 - m['ladder'][k][mode]['test']['joules_total'] / mb['joules_total']))}% "
-                          "less energy than always-largest"
+                          f"{_less_or_more(m['ladder'][k][mode]['test']['joules_total'], mb['joules_total'])} "
+                          "energy than always-largest"
                           for mode, label in (("preroute", "Pre-routing"), ("hybrid", "Hybrid"))
                           if m["ladder"][k].get(mode)
                       ] + ["", "Note: 'largest' means the largest tier with complete cache coverage for that task; "

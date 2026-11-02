@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import type { ModePoint } from "./api";
 
 export const pct = (x: number | undefined | null, d = 1) =>
   x === undefined || x === null || Number.isNaN(x) ? "–" : `${(100 * x).toFixed(d)}%`;
@@ -6,6 +7,12 @@ export const num = (x: number | undefined | null, d = 1) =>
   x === undefined || x === null || Number.isNaN(x) ? "–" : x.toLocaleString(undefined, { maximumFractionDigits: d, minimumFractionDigits: d });
 export const signedPct = (x: number | undefined | null, d = 1) =>
   x === undefined || x === null || Number.isNaN(x) ? "–" : `${x > 0 ? "+" : ""}${x.toFixed(d)}%`;
+/** Per-step escalation rates; tiers skipped by a calibrated start tier are named, not shown as 100%. */
+export const escalation = (q: ModePoint, models?: string[]) => {
+  const start = q.start_tier ?? 0;
+  const rates = q.test.escalation_rate?.slice(start).map((x) => pct(x, 0)).join(", ") || "–";
+  return start && models ? `starts at ${models[start]}; ${rates}` : rates;
+};
 
 export function Card({ title, children, right }: { title?: string; children: ReactNode; right?: ReactNode }) {
   return (

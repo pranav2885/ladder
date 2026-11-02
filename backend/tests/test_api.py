@@ -30,6 +30,13 @@ def make_router(tmp_path, p_small: float) -> LiveRouter:
     return LiveRouter(cfg, {"math": tr}, {"ollama": backend}, Meter(ConstPower(), autostart=False))
 
 
+async def test_live_router_starts_at_calibrated_tier(tmp_path):
+    r = make_router(tmp_path, p_small=0.9)
+    r.routers["math"].start_tier = {"balanced": 1}
+    trace = await r.answer("math", {"id": "x", "input": {"question": "2+2"}, "gold": "4"})
+    assert [s["tier"] for s in trace["steps"]] == ["t2"] and trace["wasted_joules"] == 0
+
+
 async def test_live_router_accepts_confident_small_answer(tmp_path):
     r = make_router(tmp_path, p_small=0.9)
     trace = await r.answer("math", {"id": "x", "input": {"question": "2+2"}, "gold": "4"})

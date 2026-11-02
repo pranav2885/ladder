@@ -13,7 +13,7 @@ import {
   YAxis,
 } from "recharts";
 import { api, MODES, modePoint, type Results as R, type TaskResult } from "../api";
-import { Card, Chips, Empty, Stat, Table, num, pct, signedPct } from "../ui";
+import { Card, Chips, Empty, Stat, Table, escalation, num, pct, signedPct } from "../ui";
 
 const AXIS = { stroke: "var(--axis)", tick: { fill: "var(--muted)", fontSize: 12 } };
 const TIER_COLORS = ["var(--tier-1)", "var(--tier-2)", "var(--tier-3)"];
@@ -177,7 +177,7 @@ function ResultsBody({ data }: { data: R }) {
               return [[<span style={{ color: "var(--ink)" }}>Ladder {m.label}</span>, pct(q.test.accuracy), num(q.test.joules_total / q.test.n),
                 big ? signedPct(100 * (q.test.joules_total / big.joules_total - 1)) : "–",
                 num(q.test.seconds_mean, 2), num(q.test.seconds_p95, 2),
-                q.test.escalation_rate?.map((x) => pct(x, 0)).join(", ") || "–"]];
+                escalation(q, t.models)]];
             }),
           ]}
         />

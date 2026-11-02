@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { MODES, modePoint, type ModeKey, type Results } from "../api";
-import { Card, Chips, Stat, Table, num, pct, signedPct } from "../ui";
+import { Card, Chips, Stat, Table, escalation, num, pct, signedPct } from "../ui";
 import { ResultsGate, useResults } from "./Results";
 
 function Knob({ data }: { data: Results }) {
@@ -50,7 +50,7 @@ function Knob({ data }: { data: Results }) {
             if (!q) return [t.task, "–", "–", "–", "–", "–"];
             return [t.task, pct(q.test.accuracy), signedPct(100 * (q.test.accuracy - b.accuracy)),
                     signedPct(100 * (q.test.joules_total / b.joules_total - 1)),
-                    q.test.escalation_rate?.map((x) => pct(x, 0)).join(", ") || "–",
+                    escalation(q, t.models),
                     pct(q.test.accepted_wrong_rate)];
           })}
         />
